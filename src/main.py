@@ -22,7 +22,7 @@ if __name__ == "__main__":
     main_ui = main_ui.Ui_MainWindow()
     main_ui.setupUi(window)
 
-    terminal_widget = TerminalWidget.Ui_Form()
+    terminal_widget = TerminalWidget.Ui_terminalWidget()
     terminal_widget.setupUi(main_ui.terminalDockLayout)
 
     window.show()

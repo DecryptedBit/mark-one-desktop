@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'widgets/TerminalWidget.ui'
+# Form implementation generated from reading ui file 'src/widgets/TerminalWidget.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.1
 #
@@ -10,35 +10,43 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(620, 326)
-        self.verticalLayout = QtWidgets.QVBoxLayout(Form)
+class Ui_terminalWidget(object):
+    def setupUi(self, terminalWidget):
+        terminalWidget.setObjectName("terminalWidget")
+        terminalWidget.resize(620, 326)
+        self.verticalLayout = QtWidgets.QVBoxLayout(terminalWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout.setSpacing(4)
         self.verticalLayout.setObjectName("verticalLayout")
-        self.textEdit = QtWidgets.QTextEdit(Form)
-        self.textEdit.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.textEdit.setReadOnly(True)
-        self.textEdit.setObjectName("textEdit")
-        self.verticalLayout.addWidget(self.textEdit)
-        self.horizontalLayout = QtWidgets.QHBoxLayout()
-        self.horizontalLayout.setSpacing(4)
-        self.horizontalLayout.setObjectName("horizontalLayout")
-        self.lineEdit = QtWidgets.QLineEdit(Form)
-        self.lineEdit.setFrame(False)
-        self.lineEdit.setObjectName("lineEdit")
-        self.horizontalLayout.addWidget(self.lineEdit)
-        self.pushButton = QtWidgets.QPushButton(Form)
-        self.pushButton.setObjectName("pushButton")
-        self.horizontalLayout.addWidget(self.pushButton)
-        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.terminalOutputEdit = QtWidgets.QTextEdit(terminalWidget)
+        self.terminalOutputEdit.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.terminalOutputEdit.setReadOnly(True)
+        self.terminalOutputEdit.setObjectName("terminalOutputEdit")
+        self.verticalLayout.addWidget(self.terminalOutputEdit)
+        self.terminalLayout = QtWidgets.QHBoxLayout()
+        self.terminalLayout.setSpacing(4)
+        self.terminalLayout.setObjectName("terminalLayout")
+        self.terminalInputEdit = QtWidgets.QLineEdit(terminalWidget)
+        self.terminalInputEdit.setFrame(False)
+        self.terminalInputEdit.setObjectName("terminalInputEdit")
+        self.terminalLayout.addWidget(self.terminalInputEdit)
+        self.terminalSendButton = QtWidgets.QPushButton(terminalWidget)
+        self.terminalSendButton.setObjectName("terminalSendButton")
+        self.terminalLayout.addWidget(self.terminalSendButton)
+        self.verticalLayout.addLayout(self.terminalLayout)
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(terminalWidget)
+        self.terminalSendButton.clicked.connect(self.send_command)
+        self.terminalInputEdit.returnPressed.connect(self.send_command)
+        QtCore.QMetaObject.connectSlotsByName(terminalWidget)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, terminalWidget):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.pushButton.setText(_translate("Form", "PushButton"))
+        terminalWidget.setWindowTitle(_translate("terminalWidget", "Form"))
+        self.terminalSendButton.setText(_translate("terminalWidget", "PushButton"))
+
+    def send_command(self):
+        input = self.terminalInputEdit.text()
+
+        self.terminalInputEdit.clear()
+        self.terminalOutputEdit.append(input)
