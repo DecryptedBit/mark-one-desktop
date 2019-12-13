@@ -1,13 +1,6 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'src/widgets/TerminalWidget.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.1
-#
-# WARNING! All changes made in this file will be lost!
-
-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
+from src import constants
+from src.interpreter import command_handler
 
 
 class Ui_terminalWidget(object):
@@ -47,6 +40,8 @@ class Ui_terminalWidget(object):
 
     def send_command(self):
         input = self.terminalInputEdit.text()
+        output = command_handler.manufacture(input)
 
         self.terminalInputEdit.clear()
-        self.terminalOutputEdit.append(input)
+        self.terminalOutputEdit.append(constants.TERMINAL_PREFIX + input)
+        self.terminalOutputEdit.append(output)
