@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
 from src import main_ui
 from src.widgets import TerminalWidget
+from src.interpreter import command_handler
 
 
 class MainWindow(QMainWindow):
@@ -14,6 +15,10 @@ class MainWindow(QMainWindow):
 
 
 if __name__ == "__main__":
+    # Initialize the command handler
+    command_handler.initialize()
+
+    # Setup the UI
     app = QApplication(sys.argv)
     app.setStyle("Fusion")
 
@@ -22,7 +27,7 @@ if __name__ == "__main__":
     main_ui = main_ui.Ui_MainWindow()
     main_ui.setupUi(window)
 
-    terminal_widget = TerminalWidget.Ui_Form()
+    terminal_widget = TerminalWidget.Ui_terminalWidget()
     terminal_widget.setupUi(main_ui.terminalDockLayout)
 
     window.show()
