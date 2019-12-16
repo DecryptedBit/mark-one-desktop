@@ -8,6 +8,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import mistune
 
 
 class Ui_MainWindow(object):
@@ -20,6 +21,7 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.mainWindowLayout)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
+
         self.editorTabWidget = QtWidgets.QTabWidget(self.mainWindowLayout)
         self.editorTabWidget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.editorTabWidget.setAutoFillBackground(False)
@@ -33,12 +35,15 @@ class Ui_MainWindow(object):
         self.editorTabWidget.setMovable(True)
         self.editorTabWidget.setTabBarAutoHide(True)
         self.editorTabWidget.setObjectName("editorTabWidget")
+
         self.editorTabLayout_1 = QtWidgets.QWidget()
         self.editorTabLayout_1.setEnabled(True)
         self.editorTabLayout_1.setObjectName("editorTabLayout_1")
+
         self.gridLayout_3 = QtWidgets.QGridLayout(self.editorTabLayout_1)
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_3.setObjectName("gridLayout_3")
+
         self.textEdit = QtWidgets.QTextEdit(self.editorTabLayout_1)
         self.textEdit.setStyleSheet("")
         self.textEdit.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -46,6 +51,10 @@ class Ui_MainWindow(object):
         self.textEdit.setLineWidth(1)
         self.textEdit.setObjectName("textEdit")
         self.gridLayout_3.addWidget(self.textEdit, 0, 0, 1, 1)
+        # https://pypi.org/project/mistune/
+        self.markdown = mistune.Markdown()
+        self.textEdit.append(self.markdown('# I am using the mistune markdown parser \n\n **Lets see if this works**'))
+
         self.editorTabWidget.addTab(self.editorTabLayout_1, "")
         self.gridLayout.addWidget(self.editorTabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.mainWindowLayout)
@@ -81,19 +90,23 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.treeView, 0, 0, 1, 1)
         self.fileExplorerDockWidget.setWidget(self.fileExplorerDockLayout)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.fileExplorerDockWidget)
+
         self.markupPreviewDockWidget = QtWidgets.QDockWidget(MainWindow)
         self.markupPreviewDockWidget.setStyleSheet("")
         self.markupPreviewDockWidget.setObjectName("markupPreviewDockWidget")
         self.markupPreviewDockLayout = QtWidgets.QWidget()
         self.markupPreviewDockLayout.setObjectName("markupPreviewDockLayout")
+
         self.gridLayout_4 = QtWidgets.QGridLayout(self.markupPreviewDockLayout)
         self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_4.setObjectName("gridLayout_4")
+
         self.widget = QtWidgets.QWidget(self.markupPreviewDockLayout)
         self.widget.setObjectName("widget")
         self.gridLayout_4.addWidget(self.widget, 0, 0, 1, 1)
         self.markupPreviewDockWidget.setWidget(self.markupPreviewDockLayout)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.markupPreviewDockWidget)
+
         self.terminalDockWidget = QtWidgets.QDockWidget(MainWindow)
         self.terminalDockWidget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.terminalDockWidget.setObjectName("terminalDockWidget")
@@ -101,6 +114,7 @@ class Ui_MainWindow(object):
         self.terminalDockLayout.setObjectName("terminalDockLayout")
         self.terminalDockWidget.setWidget(self.terminalDockLayout)
         MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminalDockWidget)
+
         self.actionSave = QtWidgets.QAction(MainWindow)
         self.actionSave.setObjectName("actionSave")
         self.actionSave_As = QtWidgets.QAction(MainWindow)
