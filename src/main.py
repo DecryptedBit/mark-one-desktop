@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
 
         self.ui = Ui_MainWindow()
 
-        self.ui.setupUi(self)
+        self.ui.setup_ui(self)
 
 
 if __name__ == "__main__":
@@ -24,8 +24,8 @@ if __name__ == "__main__":
 
     window = QMainWindow()
 
-    main_ui = main_ui.Ui_MainWindow()
-    main_ui.setupUi(window)
+    main_ui = main_ui.MainWindowUI()
+    main_ui.setup_ui(window)
 
     terminal_widget = TerminalWidget.Ui_terminalWidget()
     terminal_widget.setupUi(main_ui.terminalDockLayout)

@@ -1,64 +1,20 @@
-# -*- coding: utf-8 -*-
+from PyQt5 import QtCore, QtWidgets
 
-# Form implementation generated from reading ui file 'src/main_ui.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.1
-#
-# WARNING! All changes made in this file will be lost!
+from src import config
+from src.widgets import MarkupEditor
 
 
-from PyQt5 import QtCore, QtGui, QtWidgets
-import mistune
+class MainWindowUI(object):
+    def setup_ui(self, main_window):
+        main_window.setObjectName("MainWindow")
+        main_window.resize(config.UI_RESOLUTION[0], config.UI_RESOLUTION[1])
+        main_window.setAutoFillBackground(False)
 
-
-class Ui_MainWindow(object):
-    def setupUi(self, MainWindow):
-        MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1057, 694)
-        MainWindow.setAutoFillBackground(False)
-        self.mainWindowLayout = QtWidgets.QWidget(MainWindow)
+        self.mainWindowLayout = QtWidgets.QWidget(main_window)
         self.mainWindowLayout.setObjectName("mainWindowLayout")
-        self.gridLayout = QtWidgets.QGridLayout(self.mainWindowLayout)
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout.setObjectName("gridLayout")
+        main_window.setCentralWidget(self.mainWindowLayout)
 
-        self.editorTabWidget = QtWidgets.QTabWidget(self.mainWindowLayout)
-        self.editorTabWidget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
-        self.editorTabWidget.setAutoFillBackground(False)
-        self.editorTabWidget.setStyleSheet("")
-        self.editorTabWidget.setTabPosition(QtWidgets.QTabWidget.North)
-        self.editorTabWidget.setTabShape(QtWidgets.QTabWidget.Rounded)
-        self.editorTabWidget.setElideMode(QtCore.Qt.ElideMiddle)
-        self.editorTabWidget.setUsesScrollButtons(True)
-        self.editorTabWidget.setDocumentMode(True)
-        self.editorTabWidget.setTabsClosable(True)
-        self.editorTabWidget.setMovable(True)
-        self.editorTabWidget.setTabBarAutoHide(True)
-        self.editorTabWidget.setObjectName("editorTabWidget")
-
-        self.editorTabLayout_1 = QtWidgets.QWidget()
-        self.editorTabLayout_1.setEnabled(True)
-        self.editorTabLayout_1.setObjectName("editorTabLayout_1")
-
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.editorTabLayout_1)
-        self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-
-        self.textEdit = QtWidgets.QTextEdit(self.editorTabLayout_1)
-        self.textEdit.setStyleSheet("")
-        self.textEdit.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.textEdit.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.textEdit.setLineWidth(1)
-        self.textEdit.setObjectName("textEdit")
-        self.gridLayout_3.addWidget(self.textEdit, 0, 0, 1, 1)
-        # https://pypi.org/project/mistune/
-        self.markdown = mistune.Markdown()
-        self.textEdit.append(self.markdown('# I am using the mistune markdown parser \n\n **Lets see if this works**'))
-
-        self.editorTabWidget.addTab(self.editorTabLayout_1, "")
-        self.gridLayout.addWidget(self.editorTabWidget, 0, 0, 1, 1)
-        MainWindow.setCentralWidget(self.mainWindowLayout)
-        self.menuBar = QtWidgets.QMenuBar(MainWindow)
+        self.menuBar = QtWidgets.QMenuBar(main_window)
         self.menuBar.setGeometry(QtCore.QRect(0, 0, 1057, 21))
         self.menuBar.setDefaultUp(False)
         self.menuBar.setNativeMenuBar(True)
@@ -74,8 +30,8 @@ class Ui_MainWindow(object):
         self.menuView.setObjectName("menuView")
         self.menuSettings = QtWidgets.QMenu(self.menuBar)
         self.menuSettings.setObjectName("menuSettings")
-        MainWindow.setMenuBar(self.menuBar)
-        self.fileExplorerDockWidget = QtWidgets.QDockWidget(MainWindow)
+        main_window.setMenuBar(self.menuBar)
+        self.fileExplorerDockWidget = QtWidgets.QDockWidget(main_window)
         self.fileExplorerDockWidget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.fileExplorerDockWidget.setObjectName("fileExplorerDockWidget")
         self.fileExplorerDockLayout = QtWidgets.QWidget()
@@ -89,9 +45,12 @@ class Ui_MainWindow(object):
         self.treeView.header().setVisible(True)
         self.gridLayout_2.addWidget(self.treeView, 0, 0, 1, 1)
         self.fileExplorerDockWidget.setWidget(self.fileExplorerDockLayout)
-        MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.fileExplorerDockWidget)
+        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.fileExplorerDockWidget)
 
-        self.markupPreviewDockWidget = QtWidgets.QDockWidget(MainWindow)
+        self.markupEditorWidget = MarkupEditor.MarkupEditorUI()
+        self.markupEditorWidget.setup_ui(main_window)
+
+        self.markupPreviewDockWidget = QtWidgets.QDockWidget(main_window)
         self.markupPreviewDockWidget.setStyleSheet("")
         self.markupPreviewDockWidget.setObjectName("markupPreviewDockWidget")
         self.markupPreviewDockLayout = QtWidgets.QWidget()
@@ -105,25 +64,25 @@ class Ui_MainWindow(object):
         self.widget.setObjectName("widget")
         self.gridLayout_4.addWidget(self.widget, 0, 0, 1, 1)
         self.markupPreviewDockWidget.setWidget(self.markupPreviewDockLayout)
-        MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.markupPreviewDockWidget)
+        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.markupPreviewDockWidget)
 
-        self.terminalDockWidget = QtWidgets.QDockWidget(MainWindow)
+        self.terminalDockWidget = QtWidgets.QDockWidget(main_window)
         self.terminalDockWidget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.terminalDockWidget.setObjectName("terminalDockWidget")
         self.terminalDockLayout = QtWidgets.QWidget()
         self.terminalDockLayout.setObjectName("terminalDockLayout")
         self.terminalDockWidget.setWidget(self.terminalDockLayout)
-        MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminalDockWidget)
+        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminalDockWidget)
 
-        self.actionSave = QtWidgets.QAction(MainWindow)
+        self.actionSave = QtWidgets.QAction(main_window)
         self.actionSave.setObjectName("actionSave")
-        self.actionSave_As = QtWidgets.QAction(MainWindow)
+        self.actionSave_As = QtWidgets.QAction(main_window)
         self.actionSave_As.setObjectName("actionSave_As")
-        self.actionPreferences = QtWidgets.QAction(MainWindow)
+        self.actionPreferences = QtWidgets.QAction(main_window)
         self.actionPreferences.setObjectName("actionPreferences")
-        self.actionTheme = QtWidgets.QAction(MainWindow)
+        self.actionTheme = QtWidgets.QAction(main_window)
         self.actionTheme.setObjectName("actionTheme")
-        self.actionStylesheet = QtWidgets.QAction(MainWindow)
+        self.actionStylesheet = QtWidgets.QAction(main_window)
         self.actionStylesheet.setObjectName("actionStylesheet")
         self.menuFile.addAction(self.actionSave)
         self.menuFile.addAction(self.actionSave_As)
@@ -137,14 +96,12 @@ class Ui_MainWindow(object):
         self.menuBar.addAction(self.menuView.menuAction())
         self.menuBar.addAction(self.menuSettings.menuAction())
 
-        self.retranslateUi(MainWindow)
-        self.editorTabWidget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        self.retranslate_ui(main_window)
+        QtCore.QMetaObject.connectSlotsByName(main_window)
 
-    def retranslateUi(self, MainWindow):
+    def retranslate_ui(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.editorTabWidget.setTabText(self.editorTabWidget.indexOf(self.editorTabLayout_1), _translate("MainWindow", "Tab 1"))
+        main_window.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.menuFormat.setTitle(_translate("MainWindow", "Format"))
@@ -158,3 +115,5 @@ class Ui_MainWindow(object):
         self.actionPreferences.setText(_translate("MainWindow", "Preferences"))
         self.actionTheme.setText(_translate("MainWindow", "Theme"))
         self.actionStylesheet.setText(_translate("MainWindow", "Stylesheet"))
+
+        self.markupEditorWidget.retranslate_ui(main_window)
