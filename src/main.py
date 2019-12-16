@@ -20,7 +20,7 @@ if __name__ == "__main__":
 
     # Setup the UI
     app = QApplication(sys.argv)
-    app.setStyle("Fusion")
+    # app.setStyle("Fusion")
 
     window = QMainWindow()
 
