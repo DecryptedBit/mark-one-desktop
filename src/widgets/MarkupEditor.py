@@ -1,11 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from src.widgets import MarkupEditorTabInstance
+from src.widgets import MarkupEditorInstance
 
 
 class MarkupEditorUI(object):
-    def setup_ui(self, parent_widget):
-        self.editor_widget = QtWidgets.QWidget(parent_widget)
+    def setup_ui(self, main_window):
+        self.main_window = main_window
+
+        self.editor_widget = QtWidgets.QWidget(main_window)
         self.editor_widget.setObjectName("MarkupEditorWidget")
 
         # Markup editor layout
@@ -29,21 +31,21 @@ class MarkupEditorUI(object):
         self.tab_widget.setTabBarAutoHide(True)
         self.tab_widget.setObjectName("TabWidget")
 
-        # Tab instances
-        self.tab_widget_tab_1 = MarkupEditorTabInstance.MarkupEditorTabInstanceUI()
-        self.tab_widget_tab_1.setup_ui(self.tab_widget, 1)
+        # Editor instances
+        self.instance_tab_1 = MarkupEditorInstance.MarkupEditorInstanceUI()
+        self.instance_tab_1.setup_ui(self.main_window, self.tab_widget, 1)
 
-        self.tab_widget_tab_2 = MarkupEditorTabInstance.MarkupEditorTabInstanceUI()
-        self.tab_widget_tab_2.setup_ui(self.tab_widget, 2)
+        self.instance_tab_2 = MarkupEditorInstance.MarkupEditorInstanceUI()
+        self.instance_tab_2.setup_ui(self.main_window, self.tab_widget, 2)
 
         # Finalization
         self.editor_layout.addWidget(self.tab_widget, 0, 0, 1, 1)
-        parent_widget.setCentralWidget(self.tab_widget)
+        self.main_window.setCentralWidget(self.tab_widget)
         self.retranslate_ui()
         self.tab_widget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(parent_widget)
+        QtCore.QMetaObject.connectSlotsByName(self.main_window)
 
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.tab_widget_tab_1.retranslate_ui(self.tab_widget)
-        self.tab_widget_tab_2.retranslate_ui(self.tab_widget)
+        self.instance_tab_1.retranslate_ui(self.tab_widget)
+        self.instance_tab_2.retranslate_ui(self.tab_widget)

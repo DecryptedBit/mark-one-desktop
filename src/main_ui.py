@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 from src import config
-from src.widgets import MarkupEditor, MarkupPreviewer
+from src.widgets import MarkupEditor, MarkupEditorInstancePreview
 
 
 class MainWindowUI(object):
@@ -93,13 +93,9 @@ class MainWindowUI(object):
         self.file_explorer_dock_widget.setWidget(self.file_explorer_dock_layout)
         main_window.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.file_explorer_dock_widget)
 
-        # Markup editor
+        # Markup editor (the previewer is built in the editor)
         self.markup_editor_widget = MarkupEditor.MarkupEditorUI()
         self.markup_editor_widget.setup_ui(main_window)
-
-        # Markup previewer
-        self.markup_preview_widget = MarkupPreviewer.MarkupPreviewerUI()
-        self.markup_preview_widget.setup_ui(main_window)
 
         # Terminal
         self.terminal_dock_widget = QtWidgets.QDockWidget(main_window)
@@ -131,4 +127,3 @@ class MainWindowUI(object):
         self.settings_item_stylesheet_action.setText(_translate("MainWindow", "Stylesheet"))
 
         self.markup_editor_widget.retranslate_ui()
-        self.markup_preview_widget.retranslate_ui()
