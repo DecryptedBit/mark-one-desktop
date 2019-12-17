@@ -39,9 +39,11 @@ class MarkupEditorUI(object):
         # Finalization
         self.editor_layout.addWidget(self.tab_widget, 0, 0, 1, 1)
         parent_widget.setCentralWidget(self.tab_widget)
-        self.retranslate_ui(parent_widget)
+        self.retranslate_ui()
         self.tab_widget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(parent_widget)
 
-    def retranslate_ui(self, editor_widget):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
+        self.tab_widget_tab_1.retranslate_ui(self.tab_widget)
+        self.tab_widget_tab_2.retranslate_ui(self.tab_widget)

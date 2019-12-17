@@ -94,11 +94,11 @@ class MainWindowUI(object):
         main_window.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.file_explorer_dock_widget)
 
         # Markup editor
-        self.markupEditorWidget = MarkupEditor.MarkupEditorUI()
-        self.markupEditorWidget.setup_ui(main_window)
+        self.markup_editor_widget = MarkupEditor.MarkupEditorUI()
+        self.markup_editor_widget.setup_ui(main_window)
 
         # Markup preview: NEEDS FIXING, NO NEED FOR REFACTORING NOW
-        self.markupPreviewDockWidget = QtWidgets.QDockWidget(main_window)
+        '''self.markupPreviewDockWidget = QtWidgets.QDockWidget(main_window)
         self.markupPreviewDockWidget.setStyleSheet("")
         self.markupPreviewDockWidget.setObjectName("x")
         self.markupPreviewDockLayout = QtWidgets.QWidget()
@@ -112,16 +112,16 @@ class MainWindowUI(object):
         self.widget.setObjectName("x")
         self.gridLayout_4.addWidget(self.widget, 0, 0, 1, 1)
         self.markupPreviewDockWidget.setWidget(self.markupPreviewDockLayout)
-        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.markupPreviewDockWidget)
+        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.markupPreviewDockWidget)'''
 
         # Terminal
-        self.terminalDockWidget = QtWidgets.QDockWidget(main_window)
-        self.terminalDockWidget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.terminalDockWidget.setObjectName("TerminalDockWidget")
-        self.terminalDockLayout = QtWidgets.QWidget()
-        self.terminalDockLayout.setObjectName("TerminalDockLayout")
-        self.terminalDockWidget.setWidget(self.terminalDockLayout)
-        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminalDockWidget)
+        self.terminal_dock_widget = QtWidgets.QDockWidget(main_window)
+        self.terminal_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
+        self.terminal_dock_widget.setObjectName("TerminalDockWidget")
+        self.terminal_dock_layout = QtWidgets.QWidget()
+        self.terminal_dock_layout.setObjectName("TerminalDockLayout")
+        self.terminal_dock_widget.setWidget(self.terminal_dock_layout)
+        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
 
         # Finalization
         self.retranslate_ui(main_window)
@@ -136,12 +136,11 @@ class MainWindowUI(object):
         self.menu_bar_view_item.setTitle(_translate("MainWindow", "View"))
         self.menu_bar_settings_item.setTitle(_translate("MainWindow", "Settings"))
         self.file_explorer_dock_widget.setWindowTitle(_translate("MainWindow", "File explorer"))
-        self.markupPreviewDockWidget.setWindowTitle(_translate("MainWindow", "Markdown preview"))
-        self.terminalDockWidget.setWindowTitle(_translate("MainWindow", "Terminal"))
+        self.terminal_dock_widget.setWindowTitle(_translate("MainWindow", "Terminal"))
         self.file_item_save_action.setText(_translate("MainWindow", "Save"))
         self.file_item_save_as_action.setText(_translate("MainWindow", "Save As"))
         self.settings_item_preferences_action.setText(_translate("MainWindow", "Preferences"))
         self.settings_item_theme_action.setText(_translate("MainWindow", "Theme"))
         self.settings_item_stylesheet_action.setText(_translate("MainWindow", "Stylesheet"))
 
-        self.markupEditorWidget.retranslate_ui(main_window)
+        self.markup_editor_widget.retranslate_ui()

@@ -33,6 +33,6 @@ class MarkupEditorTabInstanceUI(object):
         self.retranslate_ui(parent_widget)
         QtCore.QMetaObject.connectSlotsByName(parent_widget)
 
-    def retranslate_ui(self, instance_tab_widget_parent):
+    def retranslate_ui(self, parent_tab_widget):
         _translate = QtCore.QCoreApplication.translate
-        instance_tab_widget_parent.setTabText(instance_tab_widget_parent.indexOf(self.editor_tab_instance_widget), _translate("MainWindow", f'Tab {self.tab_num}'))
+        parent_tab_widget.setTabText(parent_tab_widget.indexOf(self.editor_tab_instance_widget), _translate("MainWindow", f'Tab {self.tab_num}'))

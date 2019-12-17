@@ -28,7 +28,7 @@ if __name__ == "__main__":
     main_ui.setup_ui(window)
 
     terminal_widget = TerminalWidget.Ui_terminalWidget()
-    terminal_widget.setupUi(main_ui.terminalDockLayout)
+    terminal_widget.setupUi(main_ui.terminal_dock_layout)
 
     window.show()
     sys.exit(app.exec_())
