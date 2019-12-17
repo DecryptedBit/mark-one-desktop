@@ -17,7 +17,7 @@ class MarkupEditorPreviewInstanceUI(object):
     def add_to_dock_widget(self, main_window):
         self.dock_widget = main_window
 
-        # Preview dock widget master
+        # Preview dock widget
         self.dock_widget = QtWidgets.QDockWidget(main_window)
         self.dock_widget.setStyleSheet("")
         self.dock_widget.setObjectName("PreviewDockWidget")
