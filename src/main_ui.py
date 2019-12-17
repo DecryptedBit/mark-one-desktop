@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 from src import config
-from src.widgets import MarkupEditor
+from src.widgets import MarkupEditor, MarkupPreviewer
 
 
 class MainWindowUI(object):
@@ -97,22 +97,9 @@ class MainWindowUI(object):
         self.markup_editor_widget = MarkupEditor.MarkupEditorUI()
         self.markup_editor_widget.setup_ui(main_window)
 
-        # Markup preview: NEEDS FIXING, NO NEED FOR REFACTORING NOW
-        '''self.markupPreviewDockWidget = QtWidgets.QDockWidget(main_window)
-        self.markupPreviewDockWidget.setStyleSheet("")
-        self.markupPreviewDockWidget.setObjectName("x")
-        self.markupPreviewDockLayout = QtWidgets.QWidget()
-        self.markupPreviewDockLayout.setObjectName("x")
-
-        self.gridLayout_4 = QtWidgets.QGridLayout(self.markupPreviewDockLayout)
-        self.gridLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_4.setObjectName("x")
-
-        self.widget = QtWidgets.QWidget(self.markupPreviewDockLayout)
-        self.widget.setObjectName("x")
-        self.gridLayout_4.addWidget(self.widget, 0, 0, 1, 1)
-        self.markupPreviewDockWidget.setWidget(self.markupPreviewDockLayout)
-        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.markupPreviewDockWidget)'''
+        # Markup previewer
+        self.markup_preview_widget = MarkupPreviewer.MarkupPreviewerUI()
+        self.markup_preview_widget.setup_ui(main_window)
 
         # Terminal
         self.terminal_dock_widget = QtWidgets.QDockWidget(main_window)
@@ -144,3 +131,4 @@ class MainWindowUI(object):
         self.settings_item_stylesheet_action.setText(_translate("MainWindow", "Stylesheet"))
 
         self.markup_editor_widget.retranslate_ui()
+        self.markup_preview_widget.retranslate_ui()
