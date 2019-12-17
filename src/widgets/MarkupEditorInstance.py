@@ -5,7 +5,7 @@ from src.widgets import MarkupEditorInstancePreview, MarkupEditorInstanceInput
 
 
 class MarkupEditorInstanceUI(object):
-    def setup_ui(self, main_window, tab_widget, tab_num):
+    def setup_ui(self, tab_widget, tab_num):
         self.tab_num = tab_num
 
         # Tab instance
@@ -20,7 +20,7 @@ class MarkupEditorInstanceUI(object):
 
         # Markup input
         self.markup_input_widget = MarkupEditorInstanceInput.MarkupEditorInstanceInputUI()
-        self.markup_input_widget.setup_ui(self.editor_tab_instance_widget)
+        self.markup_input_widget.setup_ui(self, self.editor_tab_instance_widget)
         self.markup_input_widget.add_to_grid_layout(self.editor_tab_instance_layout, 0, 0)
 
         # Markup preview
@@ -38,3 +38,9 @@ class MarkupEditorInstanceUI(object):
         _translate = QtCore.QCoreApplication.translate
         parent_tab_widget.setTabText(parent_tab_widget.indexOf(self.editor_tab_instance_widget), _translate("MainWindow", f'Tab {self.tab_num}'))
         self.markup_preview_widget.retranslate_ui()
+
+    def markup_input_text_changed(self, input_text):
+        markdown_parser = mistune.Markdown()
+        markdown = markdown_parser(input_text)
+
+        self.markup_preview_widget.update_html(markdown)

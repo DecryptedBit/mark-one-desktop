@@ -1,4 +1,3 @@
-import mistune
 from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 
 
@@ -7,7 +6,8 @@ class MarkupEditorPreviewInstanceUI(object):
         # Preview content
         self.preview_web_engine_widget = QtWebEngineWidgets.QWebEngineView()
         self.preview_web_engine_widget.setObjectName("PreviewWebEngineWidget")
-        self.preview_web_engine_widget.setHtml("<h1>This is some test HTML</h1>")
+
+        self.preview_web_engine_widget.setHtml("<h1>Preview markdown</h1>")
 
     def add_to_grid_Layout(self, layout, row, column):
         self.dock_widget = None
@@ -31,3 +31,6 @@ class MarkupEditorPreviewInstanceUI(object):
 
         if self.dock_widget is not None:
             self.dock_widget.setWindowTitle(_translate("MainWindow", "Markup preview"))
+
+    def update_html(self, html):
+        self.preview_web_engine_widget.setHtml(html)

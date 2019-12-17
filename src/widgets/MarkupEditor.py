@@ -33,10 +33,10 @@ class MarkupEditorUI(object):
 
         # Editor instances
         self.instance_tab_1 = MarkupEditorInstance.MarkupEditorInstanceUI()
-        self.instance_tab_1.setup_ui(self.main_window, self.tab_widget, 1)
+        self.instance_tab_1.setup_ui(self.tab_widget, 1)
 
         self.instance_tab_2 = MarkupEditorInstance.MarkupEditorInstanceUI()
-        self.instance_tab_2.setup_ui(self.main_window, self.tab_widget, 2)
+        self.instance_tab_2.setup_ui(self.tab_widget, 2)
 
         # Finalization
         self.editor_layout.addWidget(self.tab_widget, 0, 0, 1, 1)

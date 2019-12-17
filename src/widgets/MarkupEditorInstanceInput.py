@@ -1,9 +1,10 @@
-import mistune
 from PyQt5 import QtWidgets
 
 
 class MarkupEditorInstanceInputUI(object):
-    def setup_ui(self, parent_widget):
+    def setup_ui(self, instantiator, parent_widget):
+        self.instantiator = instantiator
+
         self.markup_input_widget = QtWidgets.QTextEdit(parent_widget)
         self.markup_input_widget.setStyleSheet("")
         self.markup_input_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -11,9 +12,10 @@ class MarkupEditorInstanceInputUI(object):
         self.markup_input_widget.setLineWidth(1)
         self.markup_input_widget.setObjectName("InstanceInputWidget")
 
-        markdown = mistune.Markdown()
-        self.markup_input_widget.append(markdown(
-            '# I am using the mistune markdown parser \n\n ## Cool stuff! \n\n **Lets see if this works**'))
+        self.markup_input_widget.textChanged.connect(self.input_text_changed)
 
     def add_to_grid_layout(self, layout, row, column):
         layout.addWidget(self.markup_input_widget, row, column, 1, 1)
+
+    def input_text_changed(self):
+        self.instantiator.markup_input_text_changed(self.markup_input_widget.toPlainText())
