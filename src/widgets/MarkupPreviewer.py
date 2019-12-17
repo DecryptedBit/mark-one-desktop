@@ -1,5 +1,5 @@
 import mistune
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 
 
 class MarkupPreviewerUI(object):
@@ -19,11 +19,12 @@ class MarkupPreviewerUI(object):
         self.preview_layout.setObjectName("PreviewLayout")
 
         # Preview content
-        self.preview_content_widget = QtWidgets.QWidget(self.preview_widget)
-        self.preview_content_widget.setObjectName("PreviwContentWidget")
+        self.preview_web_engine_widget = QtWebEngineWidgets.QWebEngineView()
+        self.preview_web_engine_widget.setObjectName("PreviewWebEngineWidget")
+        self.preview_web_engine_widget.setHtml("<h1>This is some test HTML</h1>")
+        self.preview_layout.addWidget(self.preview_web_engine_widget, 0, 0, 1, 1)
 
         # Finalization
-        self.preview_layout.addWidget(self.preview_content_widget, 0, 0, 1, 1)
         self.preview_dock_widget.setWidget(self.preview_widget)
         parent_widget.addDockWidget(QtCore.Qt.DockWidgetArea(2), self.preview_dock_widget)
 
