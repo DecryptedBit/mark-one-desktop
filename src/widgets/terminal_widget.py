@@ -10,7 +10,7 @@ class TraverseDir(Enum):
     DOWN = "down"
 
 
-class TerminalWidgetUI(object):
+class Terminal(object):
     command_history = []
     history_index = 0
 
