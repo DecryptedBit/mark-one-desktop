@@ -1,3 +1,5 @@
+import sys
+
 import mistune
 from PyQt5 import QtCore, QtWidgets
 
@@ -20,14 +22,21 @@ class MarkupEditorInstanceUI(object):
 
         # Markup input
         self.markup_input_widget = MarkupEditorInstanceInput.MarkupEditorInstanceInputUI()
-        self.markup_input_widget.setup_ui(self, self.editor_tab_instance_widget)
-        self.markup_input_widget.add_to_grid_layout(self.editor_tab_instance_layout, 0, 0)
+        self.markup_input_widget.setup_ui(self)
+        #self.markup_input_widget.add_to_grid_layout(self.editor_tab_instance_layout, 0, 0)
 
         # Markup preview
         self.markup_preview_widget = MarkupEditorInstancePreview.MarkupEditorPreviewInstanceUI()
         self.markup_preview_widget.setup_ui()
-        self.markup_preview_widget.add_to_grid_Layout(self.editor_tab_instance_layout, 0, 1)
+        #self.markup_preview_widget.add_to_grid_Layout(self.editor_tab_instance_layout, 0, 1)
         # self.markup_preview_widget.add_to_dock_widget(main_window)
+
+        # Splitter between input and preview
+        self.markup_input_preview_splitter = QtWidgets.QSplitter()
+        self.markup_input_preview_splitter.addWidget(self.markup_input_widget.get_widget())
+        self.markup_input_preview_splitter.addWidget(self.markup_preview_widget.get_widget())
+        self.markup_input_preview_splitter.setSizes([sys.maxsize, sys.maxsize])
+        self.editor_tab_instance_layout.addWidget(self.markup_input_preview_splitter)
 
         # Finalization
         tab_widget.addTab(self.editor_tab_instance_widget, f'Tab {self.tab_num}')
