@@ -10,53 +10,67 @@ class TraverseDir(Enum):
     DOWN = "down"
 
 
-class Ui_terminalWidget(object):
+class terminalWidgetUI(object):
     command_history = []
     history_index = 0
 
-    def setupUi(self, terminalWidget):
-        terminalWidget.setObjectName("terminalWidget")
-        terminalWidget.resize(620, 326)
+    def setup_ui(self, main_window):
+        #terminal_widget.setObjectName("TerminalWidget")
+        #terminal_widget.resize(620, 326)
 
-        self.verticalLayout = QtWidgets.QVBoxLayout(terminalWidget)
-        self.verticalLayout.setContentsMargins(3, 3, 3, 3)
-        self.verticalLayout.setSpacing(4)
-        self.verticalLayout.setObjectName("verticalLayout")
+        self.terminal_dock_widget = QtWidgets.QDockWidget(main_window)
+        self.terminal_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
+        self.terminal_dock_widget.setObjectName("TerminalDockWidget")
 
-        self.terminalOutputEdit = QtWidgets.QTextEdit(terminalWidget)
-        self.terminalOutputEdit.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.terminalOutputEdit.setReadOnly(True)
-        self.terminalOutputEdit.setObjectName("terminalOutputEdit")
-        self.verticalLayout.addWidget(self.terminalOutputEdit)
+        self.terminal_widget = QtWidgets.QWidget()
+        self.terminal_widget.setObjectName("TerminalWidget")
+        self.terminal_dock_widget.setWidget(self.terminal_widget)
 
-        self.terminalLayout = QtWidgets.QHBoxLayout()
-        self.terminalLayout.setSpacing(4)
-        self.terminalLayout.setObjectName("terminalLayout")
+        self.terminal_layout = QtWidgets.QVBoxLayout(self.terminal_widget)
+        self.terminal_layout.setContentsMargins(3, 3, 3, 3)
+        self.terminal_layout.setSpacing(4)
+        self.terminal_layout.setObjectName("TerminalLayout")
 
-        self.terminalInputEdit = TerminalLineEdit(terminalWidget, self)
-        self.terminalInputEdit.setFrame(False)
-        self.terminalInputEdit.setObjectName("terminalInputEdit")
-        self.terminalLayout.addWidget(self.terminalInputEdit)
+        self.terminal_output_edit = QtWidgets.QTextEdit(self.terminal_widget)
+        self.terminal_output_edit.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.terminal_output_edit.setReadOnly(True)
+        self.terminal_output_edit.setObjectName("TerminalOutputEdit")
+        self.terminal_layout.addWidget(self.terminal_output_edit)
 
-        self.terminalSendButton = QtWidgets.QPushButton(terminalWidget)
-        self.terminalSendButton.setObjectName("terminalSendButton")
-        self.terminalLayout.addWidget(self.terminalSendButton)
+        self.terminal_interaction_layout = QtWidgets.QHBoxLayout()
+        self.terminal_interaction_layout.setSpacing(4)
+        self.terminal_interaction_layout.setObjectName("TerminalInteractionLayout")
 
-        self.verticalLayout.addLayout(self.terminalLayout)
+        self.terminal_input_edit = TerminalLineEdit(self.terminal_widget, self)
+        self.terminal_input_edit.setFrame(False)
+        self.terminal_input_edit.setObjectName("TerminalInputEdit")
+        self.terminal_interaction_layout.addWidget(self.terminal_input_edit)
 
-        self.retranslateUi(terminalWidget)
-        self.terminalSendButton.clicked.connect(self.send_command)
-        self.terminalInputEdit.returnPressed.connect(self.send_command)
+        self.terminal_send_button = QtWidgets.QPushButton(self.terminal_widget)
+        self.terminal_send_button.setObjectName("TerminalSendButton")
+        self.terminal_interaction_layout.addWidget(self.terminal_send_button)
 
-        QtCore.QMetaObject.connectSlotsByName(terminalWidget)
+        self.terminal_layout.addLayout(self.terminal_interaction_layout)
 
-    def retranslateUi(self, terminalWidget):
+        self.retranslate_ui(self.terminal_widget)
+        self.terminal_send_button.clicked.connect(self.send_command)
+        self.terminal_input_edit.returnPressed.connect(self.send_command)
+
+        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
+
+        QtCore.QMetaObject.connectSlotsByName(self.terminal_widget)
+
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        terminalWidget.setWindowTitle(_translate("terminalWidget", "Form"))
-        self.terminalSendButton.setText(_translate("terminalWidget", "PushButton"))
+        self.terminal_dock_widget.setWindowTitle(_translate("MainWindow", "Terminal"))
+
+    def retranslate_ui(self, terminal_widget):
+        _translate = QtCore.QCoreApplication.translate
+        terminal_widget.setWindowTitle(_translate("TerminalWidget", "Terminal"))
+        self.terminal_send_button.setText(_translate("TerminalWidget", "Send"))
 
     def send_command(self):
-        input = self.terminalInputEdit.text()
+        input = self.terminal_input_edit.text()
 
         if not input:
             return
@@ -65,9 +79,9 @@ class Ui_terminalWidget(object):
 
         output = command_handler.manufacture(input)
 
-        self.terminalInputEdit.clear()
-        self.terminalOutputEdit.append(config.TERMINAL_PREFIX + input)
-        self.terminalOutputEdit.append(output)
+        self.terminal_input_edit.clear()
+        self.terminal_output_edit.append(config.TERMINAL_PREFIX + input)
+        self.terminal_output_edit.append(output)
 
     def history_add(self, command):
         self.command_history.append(command)
@@ -89,9 +103,9 @@ class Ui_terminalWidget(object):
             print(self.history_index)
 
             if self.history_index < len(self.command_history):
-                self.terminalInputEdit.setText(self.command_history[self.history_index])
+                self.terminal_input_edit.setText(self.command_history[self.history_index])
             elif self.history_index == len(self.command_history):
-                self.terminalInputEdit.clear()
+                self.terminal_input_edit.clear()
 
 
 class TerminalLineEdit(QLineEdit):

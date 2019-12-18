@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 
 from src import config
-from src.widgets import MarkupEditor, MarkupEditorInstancePreview
+from src.widgets import MarkupEditor, TerminalWidget
 
 
 class MainWindowUI(object):
@@ -93,18 +93,13 @@ class MainWindowUI(object):
         self.file_explorer_dock_widget.setWidget(self.file_explorer_dock_layout)
         main_window.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.file_explorer_dock_widget)
 
-        # Markup editor (the previewer is built in the editor)
+        # Markup editor
         self.markup_editor_widget = MarkupEditor.MarkupEditorUI()
         self.markup_editor_widget.setup_ui(main_window)
 
         # Terminal
-        self.terminal_dock_widget = QtWidgets.QDockWidget(main_window)
-        self.terminal_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.terminal_dock_widget.setObjectName("TerminalDockWidget")
-        self.terminal_dock_layout = QtWidgets.QWidget()
-        self.terminal_dock_layout.setObjectName("TerminalDockLayout")
-        self.terminal_dock_widget.setWidget(self.terminal_dock_layout)
-        main_window.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
+        self.terminal_widget = TerminalWidget.terminalWidgetUI()
+        self.terminal_widget.setup_ui(main_window)
 
         # Finalization
         self.retranslate_ui(main_window)
@@ -119,7 +114,6 @@ class MainWindowUI(object):
         self.menu_bar_view_item.setTitle(_translate("MainWindow", "View"))
         self.menu_bar_settings_item.setTitle(_translate("MainWindow", "Settings"))
         self.file_explorer_dock_widget.setWindowTitle(_translate("MainWindow", "File explorer"))
-        self.terminal_dock_widget.setWindowTitle(_translate("MainWindow", "Terminal"))
         self.file_item_save_action.setText(_translate("MainWindow", "Save"))
         self.file_item_save_as_action.setText(_translate("MainWindow", "Save As"))
         self.settings_item_preferences_action.setText(_translate("MainWindow", "Preferences"))
