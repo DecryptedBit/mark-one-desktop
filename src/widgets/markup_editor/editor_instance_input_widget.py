@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 
 
-class MarkupEditorInstanceInputUI(object):
+class EditorInputInstance(object):
     def setup_ui(self, instantiator):
         self.instantiator = instantiator
 

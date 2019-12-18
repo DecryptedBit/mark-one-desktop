@@ -1,9 +1,9 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
-from src.widgets import MarkupEditorInstance
+from src.widgets.markup_editor import editor_widget_instance
 
 
-class MarkupEditorUI(object):
+class MarkupEditor(object):
     def setup_ui(self, main_window):
         self.main_window = main_window
 
@@ -32,10 +32,10 @@ class MarkupEditorUI(object):
         self.tab_widget.setObjectName("TabWidget")
 
         # Editor instances
-        self.instance_tab_1 = MarkupEditorInstance.MarkupEditorInstanceUI()
+        self.instance_tab_1 = editor_widget_instance.EditorInstance()
         self.instance_tab_1.setup_ui(self.tab_widget, 1)
 
-        self.instance_tab_2 = MarkupEditorInstance.MarkupEditorInstanceUI()
+        self.instance_tab_2 = editor_widget_instance.EditorInstance()
         self.instance_tab_2.setup_ui(self.tab_widget, 2)
 
         # Finalization

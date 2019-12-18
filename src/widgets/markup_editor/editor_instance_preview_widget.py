@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets, QtWebEngineWidgets
 
 
-class MarkupEditorPreviewInstanceUI(object):
+class EditorPreviewInstance(object):
     def setup_ui(self):
         self.dock_widget = None
 

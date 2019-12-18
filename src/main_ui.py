@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtWidgets
 
 from src import config
-from src.widgets import MarkupEditor, TerminalWidget
+from src.widgets import terminal_widget
+from src.widgets.markup_editor import markup_editor_widget
 
 
 class MainWindowUI(object):
@@ -94,11 +95,11 @@ class MainWindowUI(object):
         main_window.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.file_explorer_dock_widget)
 
         # Markup editor
-        self.markup_editor_widget = MarkupEditor.MarkupEditorUI()
+        self.markup_editor_widget = markup_editor_widget.MarkupEditor()
         self.markup_editor_widget.setup_ui(main_window)
 
         # Terminal
-        self.terminal_widget = TerminalWidget.terminalWidgetUI()
+        self.terminal_widget = terminal_widget.TerminalWidgetUI()
         self.terminal_widget.setup_ui(main_window)
 
         # Finalization

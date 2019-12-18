@@ -3,10 +3,10 @@ import sys
 import mistune
 from PyQt5 import QtCore, QtWidgets
 
-from src.widgets import MarkupEditorInstancePreview, MarkupEditorInstanceInput
+from src.widgets.markup_editor import editor_instance_input_widget, editor_instance_preview_widget
 
 
-class MarkupEditorInstanceUI(object):
+class EditorInstance(object):
     def setup_ui(self, tab_widget, tab_num):
         self.tab_num = tab_num
 
@@ -21,12 +21,12 @@ class MarkupEditorInstanceUI(object):
         self.editor_tab_instance_layout.setObjectName("InstanceLayout")
 
         # Markup input
-        self.markup_input_widget = MarkupEditorInstanceInput.MarkupEditorInstanceInputUI()
+        self.markup_input_widget = editor_instance_input_widget.EditorInputInstance()
         self.markup_input_widget.setup_ui(self)
         #self.markup_input_widget.add_to_grid_layout(self.editor_tab_instance_layout, 0, 0)
 
         # Markup preview
-        self.markup_preview_widget = MarkupEditorInstancePreview.MarkupEditorPreviewInstanceUI()
+        self.markup_preview_widget = editor_instance_preview_widget.EditorPreviewInstance()
         self.markup_preview_widget.setup_ui()
         #self.markup_preview_widget.add_to_grid_Layout(self.editor_tab_instance_layout, 0, 1)
         # self.markup_preview_widget.add_to_dock_widget(main_window)
