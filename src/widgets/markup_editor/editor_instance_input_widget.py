@@ -14,9 +14,6 @@ class EditorInputInstance(object):
 
         self.markup_input_widget.textChanged.connect(self.input_text_changed)
 
-    def add_to_grid_layout(self, layout, row, column):
-        layout.addWidget(self.markup_input_widget, row, column, 1, 1)
-
     def input_text_changed(self):
         self.instantiator.markup_input_text_changed(self.markup_input_widget.toPlainText())
 

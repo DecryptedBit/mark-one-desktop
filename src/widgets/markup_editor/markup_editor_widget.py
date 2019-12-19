@@ -1,9 +1,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+from src import file_handler
 from src.widgets.markup_editor import editor_widget_instance
 
 
 class MarkupEditor(object):
+    editor_instances = []
+    editor_instance_num = 0
+
     def setup_ui(self, main_window):
         self.main_window = main_window
 
@@ -31,13 +35,6 @@ class MarkupEditor(object):
         self.tab_widget.setTabBarAutoHide(True)
         self.tab_widget.setObjectName("TabWidget")
 
-        # Editor instances
-        self.instance_tab_1 = editor_widget_instance.EditorInstance()
-        self.instance_tab_1.setup_ui(self.tab_widget, 1)
-
-        self.instance_tab_2 = editor_widget_instance.EditorInstance()
-        self.instance_tab_2.setup_ui(self.tab_widget, 2)
-
         # Finalization
         self.editor_layout.addWidget(self.tab_widget, 0, 0, 1, 1)
         self.main_window.setCentralWidget(self.tab_widget)
@@ -46,6 +43,19 @@ class MarkupEditor(object):
         QtCore.QMetaObject.connectSlotsByName(self.main_window)
 
     def retranslate_ui(self):
-        _translate = QtCore.QCoreApplication.translate
-        self.instance_tab_1.retranslate_ui(self.tab_widget)
-        self.instance_tab_2.retranslate_ui(self.tab_widget)
+        if self.editor_instances:
+            _translate = QtCore.QCoreApplication.translate
+            for editor_instance in self.editor_instances:
+                editor_instance.retranslate_ui(self.tab_widget)
+
+    def create_instance(self, file_name="New file"):
+        self.editor_instance_num += 1
+
+        instance_tab = editor_widget_instance.EditorInstance()
+        instance_tab.setup_ui(self.tab_widget, self.editor_instance_num, file_name)
+
+        self.tab_widget.setCurrentIndex(self.editor_instance_num - 1)
+
+        self.editor_instances.append(instance_tab)
+
+        return self.editor_instance_num

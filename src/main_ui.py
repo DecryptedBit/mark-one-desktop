@@ -44,3 +44,6 @@ class MainWindowUI(object):
         self.file_explorer_widget.retranslate_ui()
         self.markup_editor_widget.retranslate_ui()
         self.terminal_widget.retranslate_ui()
+
+    def test(self):
+        print("That main window test worked baby")

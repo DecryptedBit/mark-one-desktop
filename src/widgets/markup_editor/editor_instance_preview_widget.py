@@ -11,11 +11,6 @@ class EditorPreviewInstance(object):
 
         self.preview_web_engine_widget.setHtml("<h1>Preview markdown</h1>")
 
-    def add_to_grid_Layout(self, layout, row, column):
-        self.dock_widget = None
-
-        layout.addWidget(self.preview_web_engine_widget, row, column, 1, 1)
-
     def add_to_dock_widget(self, main_window):
         # Preview dock widget
         self.dock_widget = QtWidgets.QDockWidget(main_window)

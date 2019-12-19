@@ -1,5 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 
+from src import menu_actions_handler
+
 
 class MenuBar(object):
     def setup_ui(self, main_window):
@@ -14,14 +16,19 @@ class MenuBar(object):
         self.file_item = QtWidgets.QMenu(self.menu_bar_widget)
         self.file_item.setObjectName("MenuBarFileMenu")
 
+        self.new_action = QtWidgets.QAction(main_window)
+        self.new_action.setObjectName("FileMenuNewAction")
+        self.new_action.triggered.connect(self.new_action_triggered)
+
         self.save_action = QtWidgets.QAction(main_window)
         self.save_action.setObjectName("FileMenuSaveAction")
         self.save_as_action = QtWidgets.QAction(main_window)
         self.save_as_action.setObjectName("FileMenurSaveAsAction")
 
+        self.file_item.addAction(self.new_action)
+        self.file_item.addSeparator()
         self.file_item.addAction(self.save_action)
         self.file_item.addAction(self.save_as_action)
-        self.file_item.addSeparator()
 
         # Edit item
         self.edit_item = QtWidgets.QMenu(self.menu_bar_widget)
@@ -71,9 +78,13 @@ class MenuBar(object):
         self.settings_item.setTitle(_translate("MainWindow", "Settings"))
 
         # Item actions
+        self.new_action.setText(_translate("MainWindow", "New"))
         self.save_action.setText(_translate("MainWindow", "Save"))
         self.save_as_action.setText(_translate("MainWindow", "Save As"))
         
         self.preferences_action.setText(_translate("MainWindow", "Preferences"))
         self.theme_action.setText(_translate("MainWindow", "Theme"))
         self.stylesheet_action.setText(_translate("MainWindow", "Stylesheet"))
+
+    def new_action_triggered(self):
+        menu_actions_handler.new_action_triggered()

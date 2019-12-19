@@ -21,6 +21,9 @@ def manufacture(text):
 def interpret(command, arguments):
     for command_item in command_list:
         if command == command_item[0]:
-            return command_item[1].run(arguments)
+            if command_item[1].check_valid_arg(arguments) is True:
+                return command_item[1].run(arguments)
+            else:
+                return f'False arguments given for {command}, type help for help'
 
     return "Unknown command, type help for help"
