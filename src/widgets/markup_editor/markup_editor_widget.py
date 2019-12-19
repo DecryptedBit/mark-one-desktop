@@ -1,23 +1,25 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QWidget
 
 from src.widgets.markup_editor import editor_widget_instance
 
 
-class MarkupEditor(object):
-    def setup_ui(self, main_window):
-        self.main_window = main_window
+class MarkupEditorWidget(QWidget):
+    def __init__(self, parent=None):
+        super(MarkupEditorWidget, self).__init__(parent)
+        self.init_ui()
 
-        self.editor_widget = QtWidgets.QWidget(main_window)
-        self.editor_widget.setObjectName("MarkupEditorWidget")
+    def init_ui(self):
+        self.setObjectName("MarkupEditorWidget")
 
         # Markup editor layout
-        self.editor_layout = QtWidgets.QGridLayout(self.editor_widget)
+        self.editor_layout = QtWidgets.QGridLayout(self)
         self.editor_layout.setContentsMargins(0, 0, 0, 0)
         self.editor_layout.setSpacing(3)
         self.editor_layout.setObjectName("MainLayout")
 
         # Tab widget
-        self.tab_widget = QtWidgets.QTabWidget(self.editor_widget)
+        self.tab_widget = QtWidgets.QTabWidget(self)
         self.tab_widget.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.tab_widget.setAutoFillBackground(False)
         self.tab_widget.setStyleSheet("")
@@ -40,12 +42,12 @@ class MarkupEditor(object):
 
         # Finalization
         self.editor_layout.addWidget(self.tab_widget, 0, 0, 1, 1)
-        self.main_window.setCentralWidget(self.tab_widget)
-        self.retranslate_ui()
+        #self.setLayout(self.editor_layout)
         self.tab_widget.setCurrentIndex(0)
-        QtCore.QMetaObject.connectSlotsByName(self.main_window)
+        QtCore.QMetaObject.connectSlotsByName(self)
 
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
+
         self.instance_tab_1.retranslate_ui(self.tab_widget)
         self.instance_tab_2.retranslate_ui(self.tab_widget)

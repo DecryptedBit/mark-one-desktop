@@ -22,9 +22,9 @@ class MainWindow(QMainWindow):
         self.setAutoFillBackground(False)
 
         # Main window layout
-        self.main_window_layout = QtWidgets.QWidget(self)
-        self.main_window_layout.setObjectName("MainWindowLayout")
-        self.setCentralWidget(self.main_window_layout)
+        self.layout = QtWidgets.QGridLayout(self)
+        self.layout.setObjectName("MainWindowLayout")
+        self.setLayout(self.layout)
 
         # Menu bar
         self.menu_bar_widget = menu_bar_widget.MenuBar()
@@ -35,14 +35,14 @@ class MainWindow(QMainWindow):
         self.file_explorer_widget.setup_ui(self)
 
         # Markup editor
-        self.markup_editor_widget = markup_editor_widget.MarkupEditor()
-        self.markup_editor_widget.setup_ui(self)
+        self.markup_editor_widget = markup_editor_widget.MarkupEditorWidget(self)
 
         # Terminal
         self.terminal_widget = terminal_widget.Terminal()
         self.terminal_widget.setup_ui(self)
 
         # Finalization
+        self.setCentralWidget(self.markup_editor_widget)
         self.retranslate_ui()
         QtCore.QMetaObject.connectSlotsByName(self)
 
