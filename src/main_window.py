@@ -10,7 +10,6 @@ from src.widgets.markup_editor import markup_editor_widget
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
-
         self.init_ui()
 
     def init_ui(self):
@@ -38,8 +37,13 @@ class MainWindow(QMainWindow):
         self.markup_editor_widget = markup_editor_widget.MarkupEditorWidget(self)
 
         # Terminal
-        self.terminal_widget = terminal_widget.Terminal()
-        self.terminal_widget.setup_ui(self)
+        self.terminal_dock_widget = QtWidgets.QDockWidget(self)
+        self.terminal_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
+        self.terminal_dock_widget.setObjectName("TerminalDockWidget")
+
+        self.terminal_widget = terminal_widget.Terminal(self)
+        self.terminal_dock_widget.setWidget(self.terminal_widget)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
 
         # Finalization
         self.setCentralWidget(self.markup_editor_widget)
@@ -48,6 +52,8 @@ class MainWindow(QMainWindow):
 
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
+
+        self.terminal_dock_widget.setWindowTitle(_translate("TerminalWidget", "Terminal"))
 
         self.menu_bar_widget.retranslate_ui()
         self.file_explorer_widget.retranslate_ui()
