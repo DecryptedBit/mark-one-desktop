@@ -22,14 +22,13 @@ class MarkupEditorWidget(QTabWidget):
         self.setTabsClosable(True)
         self.setMovable(True)
         self.setTabBarAutoHide(True)
-        self.setObjectName("TabWidget")
 
         # Editor instances
-        self.instance_tab_1 = editor_widget_instance.EditorInstance()
-        self.instance_tab_1.setup_ui(self, 1)
-        
-        self.instance_tab_2 = editor_widget_instance.EditorInstance()
-        self.instance_tab_2.setup_ui(self, 2)
+        self.instance_tab_1 = editor_widget_instance.EditorInstanceWidget(self)
+        self.addTab(self.instance_tab_1, "Tab 1")
+
+        self.instance_tab_2 = editor_widget_instance.EditorInstanceWidget(self)
+        self.addTab(self.instance_tab_2, "Tab 2")
 
         # Finalization
         self.setCurrentIndex(0)
@@ -37,5 +36,5 @@ class MarkupEditorWidget(QTabWidget):
 
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.instance_tab_1.retranslate_ui(self)
-        self.instance_tab_2.retranslate_ui(self)
+        self.instance_tab_1.retranslate_ui()
+        self.instance_tab_2.retranslate_ui()
