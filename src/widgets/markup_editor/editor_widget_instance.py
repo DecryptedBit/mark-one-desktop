@@ -22,18 +22,14 @@ class EditorInstanceWidget(QWidget):
 
         # Markup input
         self.markup_input_widget = editor_instance_input_widget.EditorInputInstanceWidget(self)
-        # self.markup_input_widget.add_to_grid_layout(self.editor_tab_instance_layout, 0, 0)
 
         # Markup preview
-        self.markup_preview_widget = editor_instance_preview_widget.EditorPreviewInstance()
-        self.markup_preview_widget.setup_ui()
-        # self.markup_preview_widget.add_to_grid_Layout(self.editor_tab_instance_layout, 0, 1)
-        # self.markup_preview_widget.add_to_dock_widget(main_window)
+        self.markup_preview_widget = editor_instance_preview_widget.EditorPreviewInstanceWidget(self)
 
         # Splitter between input and preview
         self.markup_input_preview_splitter = QtWidgets.QSplitter()
         self.markup_input_preview_splitter.addWidget(self.markup_input_widget)
-        self.markup_input_preview_splitter.addWidget(self.markup_preview_widget.get_widget())
+        self.markup_input_preview_splitter.addWidget(self.markup_preview_widget)
         self.markup_input_preview_splitter.setSizes([sys.maxsize, sys.maxsize])
         self.editor_tab_instance_layout.addWidget(self.markup_input_preview_splitter)
 
@@ -43,7 +39,6 @@ class EditorInstanceWidget(QWidget):
 
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
-        self.markup_preview_widget.retranslate_ui()
 
     def markup_input_text_changed(self, input_text):
         markdown_parser = mistune.Markdown()
