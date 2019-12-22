@@ -30,8 +30,13 @@ class MainWindow(QMainWindow):
         self.menu_bar_widget.setup_ui(self)
 
         # File explorer
-        self.file_explorer_widget = file_explorer_widget.FileExplorer()
-        self.file_explorer_widget.setup_ui(self)
+        self.file_explorer_dock_widget = QtWidgets.QDockWidget(self)
+        self.file_explorer_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
+        self.file_explorer_dock_widget.setObjectName("FileExplorerDockWidget")
+
+        self.file_explorer_widget = file_explorer_widget.FileExplorer(self)
+        self.file_explorer_dock_widget.setWidget(self.file_explorer_widget)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.file_explorer_dock_widget)
 
         # Markup editor
         self.markup_editor_widget = markup_editor_widget.MarkupEditorWidget(self)
@@ -53,9 +58,10 @@ class MainWindow(QMainWindow):
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
 
-        self.terminal_dock_widget.setWindowTitle(_translate("TerminalWidget", "Terminal"))
+        self.file_explorer_dock_widget.setWindowTitle(_translate("MainWindow", "File explorer"))
+        self.terminal_dock_widget.setWindowTitle(_translate("MainWindow", "Terminal"))
 
         self.menu_bar_widget.retranslate_ui()
-        self.file_explorer_widget.retranslate_ui()
         self.markup_editor_widget.retranslate_ui()
+        self.file_explorer_widget.retranslate_ui()
         self.terminal_widget.retranslate_ui()
