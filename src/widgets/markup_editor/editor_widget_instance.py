@@ -21,8 +21,7 @@ class EditorInstanceWidget(QWidget):
         self.editor_tab_instance_layout.setObjectName("InstanceLayout")
 
         # Markup input
-        self.markup_input_widget = editor_instance_input_widget.EditorInputInstance()
-        self.markup_input_widget.setup_ui(self)
+        self.markup_input_widget = editor_instance_input_widget.EditorInputInstanceWidget(self)
         # self.markup_input_widget.add_to_grid_layout(self.editor_tab_instance_layout, 0, 0)
 
         # Markup preview
@@ -33,7 +32,7 @@ class EditorInstanceWidget(QWidget):
 
         # Splitter between input and preview
         self.markup_input_preview_splitter = QtWidgets.QSplitter()
-        self.markup_input_preview_splitter.addWidget(self.markup_input_widget.get_widget())
+        self.markup_input_preview_splitter.addWidget(self.markup_input_widget)
         self.markup_input_preview_splitter.addWidget(self.markup_preview_widget.get_widget())
         self.markup_input_preview_splitter.setSizes([sys.maxsize, sys.maxsize])
         self.editor_tab_instance_layout.addWidget(self.markup_input_preview_splitter)
