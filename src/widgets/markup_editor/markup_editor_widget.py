@@ -28,7 +28,6 @@ class MarkupEditorWidget(QTabWidget):
 
         # Editor instances
         self.create_instance()
-        self.create_instance()
 
         # Finalization
         self.setCurrentIndex(0)
@@ -46,10 +45,11 @@ class MarkupEditorWidget(QTabWidget):
         self.editor_instance_num += 1
 
         instance_tab = editor_widget_instance.EditorInstanceWidget(self)
+        instance_id = instance_tab.__hash__()
 
         self.addTab(instance_tab, file_name)
         self.setCurrentIndex(self.editor_instance_num - 1)
 
         self.editor_instances.append(instance_tab)
 
-        return self.editor_instance_num
+        return instance_id
