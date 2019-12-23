@@ -1,21 +1,20 @@
-from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QTextEdit, QFrame
 
 
-class EditorInputInstance(object):
-    def setup_ui(self, instantiator):
-        self.instantiator = instantiator
+class EditorInputInstanceWidget(QTextEdit):
+    def __init__(self, parent=None):
+        super(EditorInputInstanceWidget, self).__init__(parent)
+        self.parent = parent
+        self.init_ui()
 
-        self.markup_input_widget = QtWidgets.QTextEdit()
-        self.markup_input_widget.setStyleSheet("")
-        self.markup_input_widget.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.markup_input_widget.setFrameShadow(QtWidgets.QFrame.Plain)
-        self.markup_input_widget.setLineWidth(1)
-        self.markup_input_widget.setObjectName("InstanceInputWidget")
+    def init_ui(self):
+        self.setStyleSheet("")
+        self.setFrameShape(QFrame.NoFrame)
+        self.setFrameShadow(QFrame.Plain)
+        self.setLineWidth(1)
+        self.setObjectName("InstanceInputWidget")
 
-        self.markup_input_widget.textChanged.connect(self.input_text_changed)
+        self.textChanged.connect(self.input_text_changed)
 
     def input_text_changed(self):
-        self.instantiator.markup_input_text_changed(self.markup_input_widget.toPlainText())
-
-    def get_widget(self):
-        return self.markup_input_widget
+        self.parent.markup_input_text_changed(self.toPlainText())
