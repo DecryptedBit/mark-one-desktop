@@ -26,8 +26,8 @@ class MainWindow(QMainWindow):
         self.setLayout(self.layout)
 
         # Menu bar
-        self.menu_bar_widget = menu_bar_widget.MenuBar()
-        self.menu_bar_widget.setup_ui(self)
+        self.menu_bar_widget = menu_bar_widget.MenuBarWidget(self)
+        self.setMenuBar(self.menu_bar_widget)
 
         # File explorer
         self.file_explorer_dock_widget = QtWidgets.QDockWidget(self)
@@ -46,7 +46,7 @@ class MainWindow(QMainWindow):
         self.terminal_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
         self.terminal_dock_widget.setObjectName("TerminalDockWidget")
 
-        self.terminal_widget = terminal_widget.Terminal(self)
+        self.terminal_widget = terminal_widget.TerminalWidget(self)
         self.terminal_dock_widget.setWidget(self.terminal_widget)
         self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
 

@@ -10,12 +10,12 @@ class TraverseDir(Enum):
     DOWN = "down"
 
 
-class Terminal(QWidget):
+class TerminalWidget(QWidget):
     command_history = []
     history_index = 0
 
     def __init__(self, parent=None):
-        super(Terminal, self).__init__(parent)
+        super(TerminalWidget, self).__init__(parent)
         self.init_ui()
 
     def init_ui(self):
