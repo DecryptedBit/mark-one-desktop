@@ -24,6 +24,11 @@ class MenuBarWidget(QMenuBar):
         self.new_action.setShortcut("Ctrl+N")
         self.new_action.triggered.connect(self.new_action_triggered)
 
+        self.open_action = QtWidgets.QAction(self)
+        self.open_action.setObjectName("FileMenuOpenAction")
+        self.open_action.setShortcut("Ctrl+O")
+        self.open_action.triggered.connect(self.open_action_triggered)
+
         self.save_action = QtWidgets.QAction(self)
         self.save_action.setObjectName("FileMenuSaveAction")
         self.save_action.setShortcut("Ctrl+S")
@@ -34,6 +39,7 @@ class MenuBarWidget(QMenuBar):
         self.save_as_action.triggered.connect(self.save_as_action_triggered)
 
         self.file_item.addAction(self.new_action)
+        self.file_item.addAction(self.open_action)
         self.file_item.addSeparator()
         self.file_item.addAction(self.save_action)
         self.file_item.addAction(self.save_as_action)
@@ -85,6 +91,7 @@ class MenuBarWidget(QMenuBar):
 
         # Item actions
         self.new_action.setText(_translate("MainWindow", "New"))
+        self.open_action.setText(_translate("MainWindow", "Open"))
         self.save_action.setText(_translate("MainWindow", "Save"))
         self.save_as_action.setText(_translate("MainWindow", "Save As"))
         
@@ -94,6 +101,9 @@ class MenuBarWidget(QMenuBar):
 
     def new_action_triggered(self):
         menu_actions_handler.new_action_triggered()
+
+    def open_action_triggered(self):
+        menu_actions_handler.open_action_triggered()
 
     def save_action_triggered(self):
         menu_actions_handler.save_action_triggered()

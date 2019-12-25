@@ -20,6 +20,28 @@ def create_file():
     open_files_add(file_id)
 
 
+def open_file():
+    file_info = QFileDialog.getOpenFileName(main_window, 'Open file', config.DEFAULT_SAVE_DIR, '*.txt')
+
+    file_type = file_info[1]
+    file_path = file_info[0]
+    file_name = os.path.basename(file_path)
+
+    file_content = read_file(file_path)
+
+    if not main_window.markup_editor_widget.currentWidget().markup_input_widget.toPlainText():
+        # If the current editor instance is empty, get the current widget id and update the file
+        file_id = main_window.markup_editor_widget.currentWidget().__hash__()
+        open_files_update(file_id, (file_name, file_path, file_type))
+    else:
+        # If the current editor instance is filled, create a new widget and add the file
+        file_id = main_window.markup_editor_widget.create_instance()
+        open_files_add(file_id, (file_name, file_path, file_type))
+
+    main_window.markup_editor_widget.currentWidget().markup_input_widget.setText(file_content)
+    main_window.markup_editor_widget.setTabText(main_window.markup_editor_widget.currentIndex(), file_name)
+
+
 def save_file():
     file_id = main_window.markup_editor_widget.currentWidget().__hash__()
     file_content = main_window.markup_editor_widget.currentWidget().markup_input_widget.toPlainText()
@@ -41,11 +63,12 @@ def save_file_as(file_id=None, file_content=None):
 
     file_info = QFileDialog.getSaveFileName(main_window, 'Save file as', config.DEFAULT_SAVE_DIR, '*.txt')
     file_path = file_info[0]
+    file_type = file_info[1]
 
     file_name = os.path.basename(file_path)
     main_window.markup_editor_widget.setTabText(main_window.markup_editor_widget.currentIndex(), file_name)
 
-    open_files_update(file_id, file_info)
+    open_files_update(file_id, (file_name, file_path, file_type))
     write_file(file_path, file_content)
 
 
@@ -77,6 +100,16 @@ def write_file(file_path, file_content):
     file = open(file_path, 'w')
     file.write(file_content)
     file.close()
+
+
+def read_file(file_path):
+    file = open(file_path, 'r')
+
+    with file:
+        file_content = file.read()
+
+    file.close()
+    return file_content
 
 
 def quit():

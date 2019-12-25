@@ -13,6 +13,10 @@ def new_action_triggered():
     file_handler.create_file()
 
 
+def open_action_triggered():
+    file_handler.open_file()
+
+
 def save_action_triggered():
     file_handler.save_file()
 
