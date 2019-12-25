@@ -18,7 +18,8 @@ def initialize(main_window_inst):
 
 
 def quit_application():
-    file_handler.quit()
+    #file_handler.quit()
+    pass
 
 
 if __name__ == "__main__":
