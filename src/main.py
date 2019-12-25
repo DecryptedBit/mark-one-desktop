@@ -14,13 +14,11 @@ def initialize(main_window_inst):
     menu_actions_handler.initialize(main_window_obj)
     file_handler.initialize(main_window_obj)
 
+    file_handler.create_file()
+
 
 def quit_application():
     file_handler.quit()
-
-
-def test(main_window2):
-    main_window2.test()
 
 
 if __name__ == "__main__":

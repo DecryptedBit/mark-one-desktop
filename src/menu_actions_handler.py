@@ -13,5 +13,9 @@ def new_action_triggered():
     file_handler.create_file()
 
 
+def save_action_triggered():
+    file_handler.save_file()
+
+
 def save_as_action_triggered():
     file_handler.save_file_as()

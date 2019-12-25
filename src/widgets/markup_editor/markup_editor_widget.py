@@ -10,9 +10,6 @@ class MarkupEditorWidget(QTabWidget):
         self.init_ui()
 
     def init_ui(self):
-        self.editor_instance_num = 0
-        self.editor_instances = []
-
         self.setObjectName("MarkupEditorWidget")
         self.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.setAutoFillBackground(False)
@@ -26,9 +23,6 @@ class MarkupEditorWidget(QTabWidget):
         self.setMovable(True)
         self.setTabBarAutoHide(True)
 
-        # Editor instances
-        self.create_instance()
-
         # Finalization
         self.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(self)
@@ -36,20 +30,13 @@ class MarkupEditorWidget(QTabWidget):
     def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
 
-        if self.editor_instances:
-            _translate = QtCore.QCoreApplication.translate
-            for editor_instance in self.editor_instances:
-                editor_instance.retranslate_ui()
-
     def create_instance(self, file_name="New file"):
-        self.editor_instance_num += 1
-
         instance_tab = editor_widget_instance.EditorInstanceWidget(self)
+        instance_tab.retranslate_ui()
+
         instance_id = instance_tab.__hash__()
 
         self.addTab(instance_tab, file_name)
-        self.setCurrentIndex(self.editor_instance_num - 1)
-
-        self.editor_instances.append(instance_tab)
+        self.setCurrentIndex(self.count() - 1)
 
         return instance_id
