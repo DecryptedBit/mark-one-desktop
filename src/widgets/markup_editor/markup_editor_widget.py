@@ -39,7 +39,6 @@ class MarkupEditorWidget(QTabWidget):
 
         instance_id = instance_tab.__hash__()
 
-        instance_tab.markup_input_widget.textChanged.connect(self.set_tab_text)
         self.addTab(instance_tab, file_name)
         self.setCurrentIndex(self.count() - 1)
 
@@ -50,14 +49,18 @@ class MarkupEditorWidget(QTabWidget):
         file_handler.open_files_remove(file_id)
         self.removeTab(instance_num)
 
-    def set_tab_text(self):
+    def current_instance_content_changed(self):
+        # This function is called by the editor instance itself
         current_tab_text = self.tabText(self.currentIndex())
 
         if not current_tab_text.endswith("*"):
             self.setTabText(self.currentIndex(), f'{current_tab_text} *')
 
-    def clean_tab_text(self):
+    def current_instance_content_saved(self):
+        # This function is called by the file handler
         current_tab_text = self.tabText(self.currentIndex())
 
         if current_tab_text.endswith("*"):
             self.setTabText(self.currentIndex(), current_tab_text[:-2])
+
+        self.currentWidget().content_saved()
