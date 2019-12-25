@@ -9,6 +9,7 @@ from src.widgets.markup_editor import editor_instance_input_widget, editor_insta
 
 class EditorInstanceWidget(QWidget):
     def __init__(self, parent=None):
+        self.parent = parent
         super(EditorInstanceWidget, self).__init__(parent)
         self.init_ui()
 

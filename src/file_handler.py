@@ -41,6 +41,7 @@ def save_file():
     file_content = main_window.markup_editor_widget.currentWidget().markup_input_widget.toPlainText()
 
     if open_files[file_id] is not None:
+        main_window.markup_editor_widget.clean_tab_text()
         file_path = open_files[file_id][1]
         write_file(file_path, file_content)
     else:
@@ -55,6 +56,7 @@ def save_file_as(file_id=None, file_content=None):
 
     file_info = dissect_file_dialog_info(QFileDialog.getSaveFileName(main_window, 'Save file as', config.DEFAULT_SAVE_DIR, '*.txt'))
 
+    main_window.markup_editor_widget.clean_tab_text()
     main_window.markup_editor_widget.setTabText(main_window.markup_editor_widget.currentIndex(), file_info[0])
     open_files_update(file_id, file_info)
     write_file(file_info[1], file_content)
