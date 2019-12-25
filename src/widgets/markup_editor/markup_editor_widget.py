@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTabWidget
 
+from src import file_handler
 from src.widgets.markup_editor import editor_widget_instance
 
 
@@ -25,6 +26,8 @@ class MarkupEditorWidget(QTabWidget):
 
         # Finalization
         self.setCurrentIndex(0)
+        self.setTabsClosable(True)
+        self.tabCloseRequested.connect(self.close_instance)
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def retranslate_ui(self):
@@ -40,3 +43,8 @@ class MarkupEditorWidget(QTabWidget):
         self.setCurrentIndex(self.count() - 1)
 
         return instance_id
+
+    def close_instance(self, instance_num):
+        file_id = self.widget(instance_num).__hash__()
+        file_handler.open_files_remove(file_id)
+        self.removeTab(instance_num)

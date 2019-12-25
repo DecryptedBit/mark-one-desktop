@@ -1,5 +1,5 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication
 from src import menu_actions_handler, file_handler, main_window
 from src.interpreter import command_handler
 

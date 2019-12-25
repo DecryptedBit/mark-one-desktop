@@ -88,12 +88,9 @@ def open_files_update(id, file_info):
     pprint(open_files)
 
 
-'''
-def close_file(key):
-    # Close a single file
-    if open_files:
-        removed_file = open_files.pop(key)
-        removed_file.close()'''
+def open_files_remove(id):
+    open_files.pop(id)
+    pprint(open_files)
 
 
 def write_file(file_path, file_content):
