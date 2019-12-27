@@ -1,8 +1,8 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
-from src import config
+from src import config, file_handler
 from src.widgets import terminal_widget, file_explorer_widget, menu_bar_widget
 from src.widgets.markup_editor import markup_editor_widget
 
@@ -65,3 +65,11 @@ class MainWindow(QMainWindow):
         self.markup_editor_widget.retranslate_ui()
         self.file_explorer_widget.retranslate_ui()
         self.terminal_widget.retranslate_ui()
+
+    def closeEvent(self, event):
+        reply = file_handler.handle_application_close_event()
+
+        if reply is True:
+            event.accept()
+        else:
+            event.ignore()

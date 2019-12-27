@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QTabWidget
+from PyQt5.QtWidgets import QTabWidget, QMessageBox
 
 from src import file_handler
 from src.widgets.markup_editor import editor_widget_instance
@@ -45,9 +45,7 @@ class MarkupEditorWidget(QTabWidget):
         return instance_id
 
     def close_instance(self, instance_num):
-        file_id = self.widget(instance_num).__hash__()
-        file_handler.open_files_remove(file_id)
-        self.removeTab(instance_num)
+        file_handler.handle_instance_close_event(instance_num)
 
     def current_instance_content_changed(self):
         # This function is called by the editor instance itself

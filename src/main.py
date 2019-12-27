@@ -17,15 +17,9 @@ def initialize(main_window_inst):
     file_handler.create_file()
 
 
-def quit_application():
-    #file_handler.quit()
-    pass
-
-
 if __name__ == "__main__":
     # Setup the UI
     app = QApplication(sys.argv)
-    app.aboutToQuit.connect(quit_application)
     # app.setStyle("Fusion")
 
     window = main_window.MainWindow()
