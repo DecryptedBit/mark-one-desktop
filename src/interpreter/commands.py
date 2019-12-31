@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod, ABCMeta
 
-from src import menu_actions_handler
-
 
 def get_commands():
     subclasses = []
@@ -60,7 +58,8 @@ class CreateFileCommand(Command):
     @staticmethod
     def run(args):
         if args[0] == "file":
-            menu_actions_handler.new_action_triggered()
+            #menu_actions_handler.new_action_triggered()
+            pass
 
     @staticmethod
     def check_valid_arg(arg):

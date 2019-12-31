@@ -55,6 +55,5 @@ class EditorInstanceWidget(QWidget):
         # Parent is the markup editor widget, this sets the name of the tab to indicate a change in the instance
         self.parent.current_instance_content_changed()
 
-    def content_saved(self):
+    def reset_content_changed(self):
         self.content_edited = False
-        print("SAVED")

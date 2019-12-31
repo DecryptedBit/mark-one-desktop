@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication
-from src import menu_actions_handler, file_handler, main_window
+from src import file_handler, main_window
 from src.interpreter import command_handler
 
 main_window_obj = None
@@ -11,10 +11,7 @@ def initialize(main_window_inst):
     main_window_obj = main_window_inst
 
     command_handler.initialize()
-    menu_actions_handler.initialize(main_window_obj)
     file_handler.initialize(main_window_obj)
-
-    file_handler.create_file()
 
 
 if __name__ == "__main__":

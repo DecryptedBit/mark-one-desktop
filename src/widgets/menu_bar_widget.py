@@ -1,12 +1,14 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMenuBar
 
-from src import menu_actions_handler
+from src import file_handler
 
 
 class MenuBarWidget(QMenuBar):
     def __init__(self, parent=None):
         super(MenuBarWidget, self).__init__(parent)
+
+        self.main_window = parent
         self.init_ui()
 
     def init_ui(self):
@@ -22,21 +24,21 @@ class MenuBarWidget(QMenuBar):
         self.new_action = QtWidgets.QAction(self)
         self.new_action.setObjectName("FileMenuNewAction")
         self.new_action.setShortcut("Ctrl+N")
-        self.new_action.triggered.connect(self.new_action_triggered)
+        self.new_action.triggered.connect(lambda triggered: file_handler.create_file())
 
         self.open_action = QtWidgets.QAction(self)
         self.open_action.setObjectName("FileMenuOpenAction")
         self.open_action.setShortcut("Ctrl+O")
-        self.open_action.triggered.connect(self.open_action_triggered)
+        self.open_action.triggered.connect(lambda triggered: file_handler.open_file())
 
         self.save_action = QtWidgets.QAction(self)
         self.save_action.setObjectName("FileMenuSaveAction")
         self.save_action.setShortcut("Ctrl+S")
-        self.save_action.triggered.connect(self.save_action_triggered)
+        self.save_action.triggered.connect(lambda triggered: file_handler.save_file())
 
         self.save_as_action = QtWidgets.QAction(self)
         self.save_as_action.setObjectName("FileMenuSaveAsAction")
-        self.save_as_action.triggered.connect(self.save_as_action_triggered)
+        self.save_as_action.triggered.connect(lambda triggered: file_handler.save_file_as())
 
         self.file_item.addAction(self.new_action)
         self.file_item.addAction(self.open_action)
@@ -98,15 +100,3 @@ class MenuBarWidget(QMenuBar):
         self.preferences_action.setText(_translate("MainWindow", "Preferences"))
         self.theme_action.setText(_translate("MainWindow", "Theme"))
         self.stylesheet_action.setText(_translate("MainWindow", "Stylesheet"))
-
-    def new_action_triggered(self):
-        menu_actions_handler.new_action_triggered()
-
-    def open_action_triggered(self):
-        menu_actions_handler.open_action_triggered()
-
-    def save_action_triggered(self):
-        menu_actions_handler.save_action_triggered()
-
-    def save_as_action_triggered(self):
-        menu_actions_handler.save_as_action_triggered()
