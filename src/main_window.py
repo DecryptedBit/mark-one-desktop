@@ -15,7 +15,7 @@ class MainWindow(QMainWindow):
     def init_ui(self):
         self.resize(config.UI_RESOLUTION[0], config.UI_RESOLUTION[1])
         self.setWindowTitle('Markup Project ALPHA')
-        self.setWindowIcon(QIcon('logo.svg'))
+        self.setWindowIcon(QIcon('resources/logo.svg'))
 
         self.setObjectName("MainWindow")
         self.setAutoFillBackground(False)
