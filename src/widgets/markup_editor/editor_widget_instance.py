@@ -9,6 +9,9 @@ from src.widgets.markup_editor import editor_instance_input_widget, editor_insta
 
 class EditorInstanceWidget(QWidget):
     def __init__(self, parent=None):
+        self.parent = parent
+        self.content_edited = False
+
         super(EditorInstanceWidget, self).__init__(parent)
         self.init_ui()
 
@@ -45,3 +48,12 @@ class EditorInstanceWidget(QWidget):
         markdown = markdown_parser(input_text)
 
         self.markup_preview_widget.update_html(markdown)
+        self.content_changed()
+
+    def content_changed(self):
+        self.content_edited = True
+        # Parent is the markup editor widget, this sets the name of the tab to indicate a change in the instance
+        self.parent.current_instance_content_changed()
+
+    def reset_content_changed(self):
+        self.content_edited = False

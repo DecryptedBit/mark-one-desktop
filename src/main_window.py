@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
-from src import config
+from src import config, file_handler
 from src.widgets import terminal_widget, file_explorer_widget, menu_bar_widget
 from src.widgets.markup_editor import markup_editor_widget
 
@@ -50,6 +50,8 @@ class MainWindow(QMainWindow):
         self.terminal_dock_widget.setWidget(self.terminal_widget)
         self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
 
+        # Connect signals to slots
+
         # Finalization
         self.setCentralWidget(self.markup_editor_widget)
         self.retranslate_ui()
@@ -65,3 +67,23 @@ class MainWindow(QMainWindow):
         self.markup_editor_widget.retranslate_ui()
         self.file_explorer_widget.retranslate_ui()
         self.terminal_widget.retranslate_ui()
+
+    def handle_file_closing(self, event):
+        open_editor_tab_count = self.markup_editor_widget.count()
+        forced_close_option = None
+
+        # Loop through every open instance and request to close it
+        for i in reversed(range(open_editor_tab_count)):
+            option_chosen = file_handler.close_file(i, True, forced_close_option)
+
+            if option_chosen is not None:
+                forced_close_option = option_chosen
+
+            if option_chosen is file_handler.CloseFileReplyType.CANCEL:
+                event.ignore()
+                return
+
+        event.accept()
+
+    def closeEvent(self, event):
+        self.handle_file_closing(event)
