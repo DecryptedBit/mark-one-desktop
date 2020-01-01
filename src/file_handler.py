@@ -150,6 +150,12 @@ def write_file(file_path, file_content):
     file.close()
 
 
+def append_file(file_path, append_text):
+    file = open(file_path, 'a+')
+    file.write("\n", append_text)
+    file.close()
+
+
 def read_file(file_path):
     file = open(file_path, 'r')
 

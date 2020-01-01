@@ -50,8 +50,6 @@ class MainWindow(QMainWindow):
         self.terminal_dock_widget.setWidget(self.terminal_widget)
         self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
 
-        # Connect signals to slots
-
         # Finalization
         self.setCentralWidget(self.markup_editor_widget)
         self.retranslate_ui()

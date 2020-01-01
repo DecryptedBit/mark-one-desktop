@@ -69,12 +69,13 @@ class TerminalWidget(QWidget):
             return
 
         self.history_add(input)
-
-        output = command_handler.manufacture(input)
-
         self.input_edit.clear()
         self.output_edit.append(config.TERMINAL_PREFIX + input)
-        self.output_edit.append(output)
+
+        result = command_handler.manufacture(input)
+
+        if result is not "":
+            self.output_edit.append(result + "\n")
 
     def history_add(self, command):
         self.command_history.append(command)
@@ -84,7 +85,7 @@ class TerminalWidget(QWidget):
 
         self.history_index = len(self.command_history)
 
-        print(self.command_history)
+        print(f'Terminal history: {self.command_history}')
 
     def history_traverse(self, traverse_dir):
         if self.command_history:
@@ -92,8 +93,6 @@ class TerminalWidget(QWidget):
                 self.history_index -= 1
             elif traverse_dir == TraverseDir.DOWN and self.history_index < len(self.command_history):
                 self.history_index += 1
-
-            print(self.history_index)
 
             if self.history_index < len(self.command_history):
                 self.input_edit.setText(self.command_history[self.history_index])

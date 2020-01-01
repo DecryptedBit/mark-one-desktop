@@ -3,9 +3,13 @@ from src.interpreter import commands
 command_list = []
 
 
-def initialize():
+def initialize(main_window_inst):
     global command_list
+
+    commands.initialize(main_window_inst)
+
     command_list = commands.get_commands()
+    print(command_list)
 
 
 def print_command_list():
@@ -18,12 +22,10 @@ def manufacture(text):
     return interpret(command, tokens)
 
 
-def interpret(command, arguments):
-    for command_item in command_list:
-        if command == command_item[0]:
-            if command_item[1].check_valid_arg(arguments) is True:
-                return command_item[1].run(arguments)
-            else:
-                return f'False arguments given for {command}, type help for help'
+def interpret(command_called, arguments):
+    for command in command_list:
+        # If the given command name is equal to a command present in the command_list
+        if command_called == command.get_name():
+            return command.run(arguments)
 
-    return "Unknown command, type help for help"
+    return "Unknown command, type help for a list of available commands"

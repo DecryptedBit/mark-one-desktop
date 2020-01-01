@@ -1,29 +1,27 @@
 from abc import ABC, abstractmethod, ABCMeta
 
+from src import file_handler
+
+
+main_window = None
+
+
+def initialize(main_window_inst):
+    global main_window
+    main_window = main_window_inst
+
 
 def get_commands():
-    subclasses = []
-    work = [Command]
-
-    while work:
-        parent = work.pop()
-
-        for child in parent.__subclasses__():
-            # For each child that is a subclass of Command check if it is present in the set yet
-            if child not in subclasses:
-                subclasses.append((child.get_name(), child))
-                work.append(child)
-
-    return subclasses
+    return [command for command in BaseCommand.__subclasses__()]
 
 
-class Command(ABC):
+class BaseCommand(ABC):
     __metaclass__ = ABCMeta
 
     @staticmethod
     @abstractmethod
     def get_name():
-        return 'N/A'
+        pass
 
     @staticmethod
     @abstractmethod
@@ -32,11 +30,55 @@ class Command(ABC):
 
     @staticmethod
     @abstractmethod
-    def check_valid_arg(arg):
+    def get_linked_commands():
+        pass
+
+    @staticmethod
+    @abstractmethod
+    def get_command_documentation():
         pass
 
 
-class SayCommand(Command):
+class HelpCommand(BaseCommand):
+    @staticmethod
+    def get_name():
+        return 'help'
+
+    @staticmethod
+    def run(args):
+        return '\n'.join(command.get_command_documentation() for command in get_commands())
+
+    @staticmethod
+    def get_linked_commands():
+        return None
+
+    @staticmethod
+    @abstractmethod
+    def get_command_documentation():
+        return f'{HelpCommand.get_name()}\tShows all commands with documentation'
+
+
+class ClearCommand(BaseCommand):
+    @staticmethod
+    def get_name():
+        return 'clear'
+
+    @staticmethod
+    def run(args):
+        main_window.terminal_widget.output_edit.clear()
+        return ""
+
+    @staticmethod
+    def get_linked_commands():
+        return None
+
+    @staticmethod
+    @abstractmethod
+    def get_command_documentation():
+        return f'{ClearCommand.get_name()}\tClear the terminal'
+
+
+class SayCommand(BaseCommand):
     @staticmethod
     def get_name():
         return 'say'
@@ -46,24 +88,61 @@ class SayCommand(Command):
         return '"' + ' '.join(args) + '"'
 
     @staticmethod
-    def check_valid_arg(arg):
-        return True
+    def get_linked_commands():
+        return None
 
-
-class CreateFileCommand(Command):
     @staticmethod
+    @abstractmethod
+    def get_command_documentation():
+        return f'{SayCommand.get_name()}\tRepeat a sentence'
+
+
+class CreateCommand(BaseCommand):
+    @staticmethod
+    @abstractmethod
     def get_name():
         return 'create'
 
     @staticmethod
+    @abstractmethod
     def run(args):
-        if args[0] == "file":
-            #menu_actions_handler.new_action_triggered()
-            pass
+        linked_commands = CreateCommand.get_linked_commands()
+
+        if args:
+            return linked_commands[args[0]].run(args[1:])
+        else:
+            return "Syntax of this command is incorrect, consider the following help:\n" + \
+                   "------------------------------------------------\n" + \
+                   CreateCommand.get_command_documentation()
 
     @staticmethod
-    def check_valid_arg(arg):
-        if arg[0] == "file":
-            return True
+    @abstractmethod
+    def get_linked_commands():
+        return {command.get_name(): command for command in CreateCommand.__subclasses__()}
 
-        return False
+    @staticmethod
+    @abstractmethod
+    def get_command_documentation():
+        documentation = f'{CreateCommand.get_name()}\tCreate any of the following:'
+        documentation += f'\n- ' + "".join(command.get_command_documentation() for command in CreateCommand.get_linked_commands().values())
+        return documentation
+
+
+class CreateFileCommand(CreateCommand):
+    @staticmethod
+    def get_name():
+        return 'file'
+
+    @staticmethod
+    def run(args):
+        file_handler.create_file()
+        return "Created a file called 'New file'."
+
+    @staticmethod
+    def get_linked_commands():
+        return None
+
+    @staticmethod
+    @abstractmethod
+    def get_command_documentation():
+        return f'{CreateFileCommand.get_name()}\tCreate a new file.'
