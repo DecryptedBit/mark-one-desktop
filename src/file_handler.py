@@ -145,22 +145,20 @@ def instantiate_file_dialog(file_dialog_type, title, file_types):
 
 
 def write_file(file_path, file_content):
-    file = open(file_path, 'w')
-    file.write(file_content)
-    file.close()
+    with open(file_path, 'w') as file:
+        file.write(file_content)
+        file.close()
 
 
 def append_file(file_path, append_text):
-    file = open(file_path, 'a+')
-    file.write("\n", append_text)
-    file.close()
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    with open(file_path, 'a+') as file:
+        file.write(append_text + "\n")
+        file.close()
 
 
 def read_file(file_path):
-    file = open(file_path, 'r')
-
-    with file:
+    with open(file_path, 'r') as file:
         file_content = file.read()
-
-    file.close()
-    return file_content
+        file.close()
+        return file_content
