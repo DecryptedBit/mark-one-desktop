@@ -29,6 +29,8 @@ def open_file(file_info=None):
     # Create an instance with the file contents
     main_window.markup_editor_widget.create_instance(file_info, read_file(file_info[1]))
 
+    return file_info
+
 
 def save_file(instance_info=None):
     if instance_info is None:
