@@ -36,6 +36,9 @@ def save_file(instance_info=None):
     if instance_info is None:
         instance_info = main_window.markup_editor_widget.get_current_instance_info()
 
+        if instance_info is None:
+            return None
+
     file_info = instance_info[1]
 
     # Check if the markup editor has complete file information present. If it doesn't the file has not been saved before
@@ -49,22 +52,29 @@ def save_file(instance_info=None):
         # Update the markup editor instance
         main_window.markup_editor_widget.update_instance(instance_info)
     else:
-        save_file_as(instance_info)
+        instance_info = save_file_as(instance_info)
+
+    return instance_info
 
 
 def save_file_as(instance_info=None):
     if instance_info is None:
         instance_info = main_window.markup_editor_widget.get_current_instance_info()
 
+        if instance_info is None:
+            return None
+
     # Instantiate a dialog to save the file as, and check if it got cancelled resulting in no file info
     new_file_info = instantiate_file_dialog(FileDialogType.SAVE, 'Save file as', '*.txt')
     if new_file_info is None:
-        return
+        return None
 
     # Update the instance_info variable with the newly acquired information
     main_window.markup_editor_widget.update_instance_info(instance_info=instance_info, new_file_info=new_file_info)
 
     save_file(instance_info)
+
+    return instance_info
 
 
 class CloseFileReplyType(Enum):

@@ -83,6 +83,9 @@ class MarkupEditorWidget(QTabWidget):
         return instance_id
 
     def get_current_instance_info(self):
+        if self.currentWidget() is None:
+            return None
+
         instance_id = self.currentWidget().__hash__()
 
         # Update the content held in the open instance info
