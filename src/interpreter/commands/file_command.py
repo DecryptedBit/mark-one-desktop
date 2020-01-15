@@ -16,10 +16,10 @@ class FileCommand(BaseCommand):
     def run(args):
         linked_commands = command_helper.get_linked_commands(FileCommand)
 
-        if args:
+        if args and args[0] in linked_commands:
             return linked_commands[args[0]].run(args[1:])
-        else:
-            return command_helper.incorrect_command_syntax_notice + FileCommand.get_command_documentation(linked_commands)
+
+        return command_helper.incorrect_command_syntax_notice + FileCommand.get_command_documentation(linked_commands)
 
     @staticmethod
     @abstractmethod
