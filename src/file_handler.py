@@ -29,10 +29,15 @@ def open_file(file_info=None):
     # Create an instance with the file contents
     main_window.markup_editor_widget.create_instance(file_info, read_file(file_info[1]))
 
+    return file_info
+
 
 def save_file(instance_info=None):
     if instance_info is None:
         instance_info = main_window.markup_editor_widget.get_current_instance_info()
+
+        if instance_info is None:
+            return None
 
     file_info = instance_info[1]
 
@@ -47,22 +52,29 @@ def save_file(instance_info=None):
         # Update the markup editor instance
         main_window.markup_editor_widget.update_instance(instance_info)
     else:
-        save_file_as(instance_info)
+        instance_info = save_file_as(instance_info)
+
+    return instance_info
 
 
 def save_file_as(instance_info=None):
     if instance_info is None:
         instance_info = main_window.markup_editor_widget.get_current_instance_info()
 
+        if instance_info is None:
+            return None
+
     # Instantiate a dialog to save the file as, and check if it got cancelled resulting in no file info
     new_file_info = instantiate_file_dialog(FileDialogType.SAVE, 'Save file as', '*.txt')
     if new_file_info is None:
-        return
+        return None
 
     # Update the instance_info variable with the newly acquired information
     main_window.markup_editor_widget.update_instance_info(instance_info=instance_info, new_file_info=new_file_info)
 
     save_file(instance_info)
+
+    return instance_info
 
 
 class CloseFileReplyType(Enum):
@@ -145,16 +157,20 @@ def instantiate_file_dialog(file_dialog_type, title, file_types):
 
 
 def write_file(file_path, file_content):
-    file = open(file_path, 'w')
-    file.write(file_content)
-    file.close()
+    with open(file_path, 'w') as file:
+        file.write(file_content)
+        file.close()
+
+
+def append_file(file_path, append_text):
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    with open(file_path, 'a+') as file:
+        file.write(append_text + "\n")
+        file.close()
 
 
 def read_file(file_path):
-    file = open(file_path, 'r')
-
-    with file:
+    with open(file_path, 'r') as file:
         file_content = file.read()
-
-    file.close()
-    return file_content
+        file.close()
+        return file_content

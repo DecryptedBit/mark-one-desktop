@@ -1,15 +1,8 @@
-from src.interpreter import commands
-
-command_list = []
+from src.interpreter import command_helper
 
 
-def initialize():
-    global command_list
-    command_list = commands.get_commands()
-
-
-def print_command_list():
-    print(command_list)
+def initialize(main_window_inst):
+    command_helper.initialize(main_window_inst)
 
 
 def manufacture(text):
@@ -18,12 +11,10 @@ def manufacture(text):
     return interpret(command, tokens)
 
 
-def interpret(command, arguments):
-    for command_item in command_list:
-        if command == command_item[0]:
-            if command_item[1].check_valid_arg(arguments) is True:
-                return command_item[1].run(arguments)
-            else:
-                return f'False arguments given for {command}, type help for help'
+def interpret(command_called, arguments):
+    for command_name, command in command_helper.command_list.items():
+        # If the given command name is equal to a command present in the command_list
+        if command_called == command_name:
+            return command.run(arguments)
 
-    return "Unknown command, type help for help"
+    return "Unknown command, type help for a list of available commands"

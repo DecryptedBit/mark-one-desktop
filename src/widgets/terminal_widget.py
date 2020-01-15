@@ -1,13 +1,27 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QLineEdit, QWidget
 from enum import Enum
-from src import config
+from src import config, file_handler
 from src.interpreter import command_handler
 
 
-class TraverseDir(Enum):
+class TraverseDirType(Enum):
     UP = "up"
     DOWN = "down"
+
+
+class LoggingType(Enum):
+    INPUT = "input"
+    RESPONSE = "response"
+
+
+def logging_add(text, logging_type):
+    if logging_type is LoggingType.INPUT and config.TERMINAL_LOGGING is False:
+        return
+    elif logging_type is LoggingType.RESPONSE and config.TERMINAL_RESPONSE_LOGGING is False:
+        return
+
+    file_handler.append_file(config.TERMINAL_LOG_FILE_PATH, text)
 
 
 class TerminalWidget(QWidget):
@@ -69,12 +83,16 @@ class TerminalWidget(QWidget):
             return
 
         self.history_add(input)
-
-        output = command_handler.manufacture(input)
+        logging_add(input, LoggingType.INPUT)
 
         self.input_edit.clear()
         self.output_edit.append(config.TERMINAL_PREFIX + input)
-        self.output_edit.append(output)
+
+        response = command_handler.manufacture(input)
+
+        if response is not "":
+            self.output_edit.append(response + "\n")
+            logging_add(response + "\n", LoggingType.RESPONSE)
 
     def history_add(self, command):
         self.command_history.append(command)
@@ -84,16 +102,14 @@ class TerminalWidget(QWidget):
 
         self.history_index = len(self.command_history)
 
-        print(self.command_history)
+        print(f'Terminal history: {self.command_history}')
 
     def history_traverse(self, traverse_dir):
         if self.command_history:
-            if traverse_dir == TraverseDir.UP and self.history_index > 0:
+            if traverse_dir == TraverseDirType.UP and self.history_index > 0:
                 self.history_index -= 1
-            elif traverse_dir == TraverseDir.DOWN and self.history_index < len(self.command_history):
+            elif traverse_dir == TraverseDirType.DOWN and self.history_index < len(self.command_history):
                 self.history_index += 1
-
-            print(self.history_index)
 
             if self.history_index < len(self.command_history):
                 self.input_edit.setText(self.command_history[self.history_index])
@@ -110,8 +126,8 @@ class TerminalLineEdit(QLineEdit):
         key = event.key()
 
         if key > 0 and key == QtCore.Qt.Key_Up:
-            self.parent.history_traverse(TraverseDir.UP) # history_traverse(TraverseDir.UP)
+            self.parent.history_traverse(TraverseDirType.UP) # history_traverse(TraverseDir.UP)
         if key > 0 and key == QtCore.Qt.Key_Down:
-            self.parent.history_traverse(TraverseDir.DOWN)
+            self.parent.history_traverse(TraverseDirType.DOWN)
 
         super(TerminalLineEdit, self).keyPressEvent(event)

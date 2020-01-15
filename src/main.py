@@ -10,7 +10,7 @@ def initialize(main_window_inst):
     global main_window_obj
     main_window_obj = main_window_inst
 
-    command_handler.initialize()
+    command_handler.initialize(main_window_obj)
     file_handler.initialize(main_window_obj)
 
 
