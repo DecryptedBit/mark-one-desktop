@@ -24,7 +24,7 @@ def open_file(file_info=None):
 
         # Check if the user cancelled opening the file resulting in none file info
         if not file_info:
-            return
+            return None
 
     # Create an instance with the file contents
     main_window.markup_editor_widget.create_instance(file_info, read_file(file_info[1]))

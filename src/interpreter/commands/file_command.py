@@ -51,7 +51,11 @@ class FileOpenCommand(FileCommand):
     @staticmethod
     def run(args):
         file_info = file_handler.open_file()
-        return f'Opened a file called \'{file_info[0]}\' at {file_info[1]} with type {file_info[2]}.'
+
+        if file_info is not None:
+            return f'Opened a file called \'{file_info[0]}\' at {file_info[1]} with type {file_info[2]}.'
+        else:
+            return 'Opening file has been cancelled.'
 
     @staticmethod
     @abstractmethod
