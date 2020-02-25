@@ -1,4 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
@@ -10,6 +11,9 @@ from src.widgets.markup_editor import markup_editor_widget
 class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
+
+        self.settings = QSettings("DeBit", "MarkI-Desktop")
+
         self.init_ui()
 
     def init_ui(self):
