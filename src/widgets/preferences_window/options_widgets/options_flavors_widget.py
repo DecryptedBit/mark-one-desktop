@@ -16,7 +16,7 @@ class OptionsFlavorsWidget(QWidget):
         self.layout.setSpacing(9)
 
         # Entries
-        self.pandoc_path_input_entry = InputEntryWidget("Pandoc path", "resources/logo_inverted.png", self)
+        self.pandoc_path_input_entry = InputEntryWidget("Pandoc path", parent=self)
         self.pandoc_path_input_entry.set_text(self.settings.value("flavors/pandoc_path", "", type=str))
         self.pandoc_path_input_entry.buttonClicked.connect(self.instantiate_folder_dialog)
         self.layout.addWidget(self.pandoc_path_input_entry)

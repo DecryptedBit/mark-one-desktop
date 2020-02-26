@@ -13,7 +13,6 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
 
         self.settings = QSettings("DeBit", "MarkI-Desktop")
-        print(self.settings.fileName())
 
         self.init_ui()
 

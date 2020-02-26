@@ -1,6 +1,7 @@
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import QDialog
 
+from src import settings_handler
 from src.widgets.preferences_window.options_widgets.options_flavors_widget import OptionsFlavorsWidget
 from src.widgets.preferences_window.preferences_index_widget import PreferencesIndexWidget
 from src.widgets.preferences_window.preferences_options_widget import PreferencesOptionsWidget
