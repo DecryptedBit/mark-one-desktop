@@ -25,3 +25,9 @@ class InputEntryWidget(QWidget):
         self.button_line_edit.setClearButtonEnabled(True)
         self.button_line_edit.buttonClicked.connect(self.buttonClicked.emit)
         self.layout.addWidget(self.button_line_edit)
+
+    def set_text(self, text):
+        self.button_line_edit.setText(text)
+
+    def get_text(self):
+        return self.button_line_edit.text()

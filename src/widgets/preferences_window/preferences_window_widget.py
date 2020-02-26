@@ -1,28 +1,21 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtWidgets import QDialog
 
-from src.widgets.preferences_window.options_widgets.options_flavors_widget import OptionsFlavorWidget
-from src.widgets.preferences_window.options_widgets.options_general_widget import OptionsGeneralWidget
+from src.widgets.preferences_window.options_widgets.options_flavors_widget import OptionsFlavorsWidget
 from src.widgets.preferences_window.preferences_index_widget import PreferencesIndexWidget
 from src.widgets.preferences_window.preferences_options_widget import PreferencesOptionsWidget
 
 
 def on_open(main_window):
     settings = main_window.settings
-
-    preference_dialog = PreferencesWindowWidget(main_window)
-
-    # On execution, set changes to settings object
-    if preference_dialog.exec():
-        pass
-
-    # Write settings to storage
-    del settings
+    preference_dialog = PreferencesWindowWidget(settings, main_window)
+    preference_dialog.exec()
 
 
 class PreferencesWindowWidget(QDialog):
-    def __init__(self, parent=None):
+    def __init__(self, settings, parent=None):
         super(PreferencesWindowWidget, self).__init__(parent)
+        self.settings = settings
         self.init_ui()
 
     def init_ui(self):
@@ -32,8 +25,8 @@ class PreferencesWindowWidget(QDialog):
         self.layout.setContentsMargins(0, 0, 0, 9)
         self.layout.setSpacing(9)
 
-        self.option_widgets = [QtWidgets.QWidget(self), OptionsFlavorWidget(self), QtWidgets.QWidget(self)]
-        self.option_widgets_names = ["General", "Flavors", "Terminal"]
+        self.option_widgets = [OptionsFlavorsWidget(self.settings, self)]
+        self.option_widgets_names = ["Flavors"]
 
         # Index
         self.index_widget = PreferencesIndexWidget(self)
@@ -53,16 +46,27 @@ class PreferencesWindowWidget(QDialog):
 
         # Actions box
         self.actions_button_box = QtWidgets.QDialogButtonBox(self)
-        self.actions_button_box.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Apply)
         self.actions_button_box.setCenterButtons(True)
-        self.actions_button_box.setObjectName("PreferencesWindowButtonBox")
-
-        self.actions_button_box.accepted.connect(self.accept)
-        self.actions_button_box.rejected.connect(self.reject)
-
         self.layout.addWidget(self.actions_button_box)
+
+        # Actions box buttons
+        button_ok = self.actions_button_box.addButton(QtWidgets.QDialogButtonBox.Ok)
+        button_ok.clicked.connect(self.accept)
+
+        button_cancel = self.actions_button_box.addButton(QtWidgets.QDialogButtonBox.Cancel)
+        button_cancel.clicked.connect(self.reject)
+
+        button_apply = self.actions_button_box.addButton(QtWidgets.QDialogButtonBox.Apply)
+        button_apply.clicked.connect(self.save_settings)
 
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def hierarchy_item_activated(self, index):
         self.options_widget.setCurrentIndex(index)
+
+    def save_settings(self):
+        for option_widget in self.option_widgets:
+            option_widget.save_settings()
+
+        self.settings.sync()
+        print("Settings are saved")
