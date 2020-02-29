@@ -1,7 +1,7 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget
 
-from src.widgets.preferences_window.options_widgets.option_entries.input_entry_widget import InputEntryWidget
+from src.widgets.components.labeled_line_edit import LabeledLineEdit
 
 
 class OptionsFlavorsWidget(QWidget):
@@ -16,7 +16,7 @@ class OptionsFlavorsWidget(QWidget):
         self.layout.setSpacing(9)
 
         # Entries
-        self.pandoc_path_input_entry = InputEntryWidget("Pandoc path", parent=self)
+        self.pandoc_path_input_entry = LabeledLineEdit("Pandoc path", parent=self)
         self.pandoc_path_input_entry.set_text(self.settings.value("flavors/pandoc_path", "", type=str))
         self.pandoc_path_input_entry.buttonClicked.connect(self.instantiate_folder_dialog)
         self.layout.addWidget(self.pandoc_path_input_entry)

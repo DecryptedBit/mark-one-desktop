@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMenuBar
 
-from src import file_handler
+from src.handlers import file_handler
 from src.widgets.preferences_window import preferences_window_widget
 
 

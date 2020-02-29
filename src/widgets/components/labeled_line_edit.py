@@ -4,11 +4,11 @@ from PyQt5.QtWidgets import QWidget
 from src.widgets.components.button_line_edit import ButtonLineEdit
 
 
-class InputEntryWidget(QWidget):
+class LabeledLineEdit(QWidget):
     buttonClicked = QtCore.pyqtSignal(bool)
 
     def __init__(self, label_text, icon_path=None, parent=None):
-        super(InputEntryWidget, self).__init__(parent)
+        super(LabeledLineEdit, self).__init__(parent)
         self.init_ui(label_text, icon_path)
 
     def init_ui(self, label_text, icon_path):
@@ -16,7 +16,6 @@ class InputEntryWidget(QWidget):
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(6)
 
-        # Options entry
         self.label = QtWidgets.QLabel(self)
         self.label.setText(label_text + ": ")
         self.layout.addWidget(self.label)

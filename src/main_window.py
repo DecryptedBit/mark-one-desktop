@@ -3,7 +3,8 @@ from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
-from src import config, file_handler
+from src import config
+from src.handlers import file_handler
 from src.widgets import terminal_widget, file_explorer_widget, menu_bar_widget
 from src.widgets.markup_editor import markup_editor_widget
 

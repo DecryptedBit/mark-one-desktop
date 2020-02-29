@@ -3,7 +3,7 @@ from pprint import pprint
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QTabWidget
 
-from src import file_handler
+from src.handlers import file_handler
 from src.widgets.markup_editor import editor_widget_instance
 
 
@@ -15,7 +15,6 @@ class MarkupEditorWidget(QTabWidget):
         self.open_instances = {}
 
     def init_ui(self):
-        self.setObjectName("MarkupEditorWidget")
         self.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.setAutoFillBackground(False)
         self.setStyleSheet("")
@@ -47,7 +46,7 @@ class MarkupEditorWidget(QTabWidget):
         pprint(self.open_instances)
 
         # Set the text of the current instance
-        self.currentWidget().markup_input_widget.setText(file_content)
+        self.currentWidget().set_content(file_content)
         self.current_instance_reset_content_changed(instance_id)
 
     def update_instance(self, instance_info):
@@ -71,6 +70,7 @@ class MarkupEditorWidget(QTabWidget):
     def create_editor_instance(self, instance_name="New file"):
         # Create a editor instance widget
         instance_tab = editor_widget_instance.EditorInstanceWidget(self)
+        instance_tab.contentChanged.connect(self.current_instance_content_changed)
         instance_tab.retranslate_ui()
 
         # Get the editor instance widget hash to use as the unique identifier

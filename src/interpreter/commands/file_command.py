@@ -1,6 +1,6 @@
 from abc import abstractmethod
 
-from src import file_handler
+from src.handlers import file_handler
 from src.interpreter import command_helper
 from src.interpreter.commands.base_command import BaseCommand
 
