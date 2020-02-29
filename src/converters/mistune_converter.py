@@ -25,7 +25,6 @@ class MistuneConverter(BaseConverter):
     def convert(self, content):
         markdown_parser = mistune.Markdown()
         converted_content = markdown_parser(content)
-
         return converted_content
 
     def set_from_type(self, from_type_index):

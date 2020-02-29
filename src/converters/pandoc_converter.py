@@ -1,5 +1,7 @@
 from abc import abstractmethod
 
+import pypandoc
+
 from src.converters.base_converter import BaseConverter
 
 from_types = [
@@ -112,7 +114,7 @@ class PandocConverter(BaseConverter):
         self.set_to_type(to_type_index)
 
     def convert(self, content):
-        return "Not working yet"
+        return pypandoc.convert_text(content, self.to_type[0], format=self.from_type[0])
 
     def set_from_type(self, from_type_index):
         self.from_type = self.get_from_types()[from_type_index]
