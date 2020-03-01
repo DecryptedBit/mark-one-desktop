@@ -5,13 +5,13 @@ from src.interpreter import commands
 from src.interpreter.commands import base_command
 
 main_window = None
-converter_list = {}
+command_list = {}
 incorrect_command_syntax_notice = "Syntax of this command is incorrect, consider the following help:\n" \
                                 + "------------------------------------------------\n"
 
 
 def initialize(main_window_inst):
-    global main_window, converter_list
+    global main_window, command_list
     main_window = main_window_inst
 
     # Import all command modules
