@@ -39,7 +39,7 @@ def create_master_command_documentation(master_command, command_documentation, l
 
     if linked_commands:
         for command in linked_commands.values():
-            documentation += f'\n- {command.get_command_documentation()}'
+            documentation += f'\n- {command.get_documentation()}'
 
     else:
         documentation += f'\n- No commands are linked to this master command yet.'

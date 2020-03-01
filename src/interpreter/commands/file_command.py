@@ -1,5 +1,3 @@
-from abc import abstractmethod
-
 from src.handlers import file_handler
 from src.interpreter import command_helper
 from src.interpreter.commands.base_command import BaseCommand
@@ -7,23 +5,20 @@ from src.interpreter.commands.base_command import BaseCommand
 
 class FileCommand(BaseCommand):
     @staticmethod
-    @abstractmethod
     def get_name():
         return 'file'
 
     @staticmethod
-    @abstractmethod
     def run(args):
         linked_commands = command_helper.get_linked_commands(FileCommand)
 
         if args and args[0] in linked_commands:
             return linked_commands[args[0]].run(args[1:])
 
-        return command_helper.incorrect_command_syntax_notice + FileCommand.get_command_documentation(linked_commands)
+        return command_helper.incorrect_command_syntax_notice + FileCommand.get_documentation(linked_commands)
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation(linked_commands=None):
+    def get_documentation(linked_commands=None):
         return command_helper.create_master_command_documentation(FileCommand, "Do any of the following file actions", linked_commands)
 
 
@@ -38,8 +33,7 @@ class FileCreateCommand(FileCommand):
         return "Created a file called 'New file'."
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         return f'{FileCreateCommand.get_name()}\tCreate a new file.'
 
 
@@ -58,8 +52,7 @@ class FileOpenCommand(FileCommand):
             return 'Opening file has been cancelled.'
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         return f'{FileOpenCommand.get_name()}\tOpen a file.'
 
 
@@ -79,8 +72,7 @@ class FileSaveCommand(FileCommand):
         return f'Saved a file with id {instance_info[0]} called \'{file_info[0]}\' at {file_info[1]} with type {file_info[2]}.'
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         return f'{FileSaveCommand.get_name()}\tSave a file.'
 
 
@@ -100,6 +92,5 @@ class FileSaveAsCommand(FileCommand):
         return f'Saved a file with id {instance_info[0]} called \'{file_info[0]}\' at {file_info[1]} with type {file_info[2]}.'
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         return f'{FileSaveAsCommand.get_name()}\tSave a file as.'

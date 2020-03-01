@@ -1,9 +1,7 @@
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABC, abstractmethod
 
 
 class BaseCommand(ABC):
-    __metaclass__ = ABCMeta
-
     @staticmethod
     @abstractmethod
     def get_name():
@@ -16,5 +14,5 @@ class BaseCommand(ABC):
 
     @staticmethod
     @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         pass
