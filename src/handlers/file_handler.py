@@ -20,7 +20,7 @@ def create_file():
 def open_file(file_info=None):
     # Check if we already received a file path to open
     if not file_info:
-        file_info = instantiate_file_dialog(FileDialogType.OPEN, 'Open file', '*.txt')
+        file_info = instantiate_file_dialog(FileDialogType.OPEN, 'Open file', '*.md')
 
         # Check if the user cancelled opening the file resulting in none file info
         if not file_info:

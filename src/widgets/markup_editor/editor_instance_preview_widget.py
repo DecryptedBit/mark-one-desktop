@@ -9,7 +9,6 @@ class EditorPreviewInstanceWidget(QWebEngineView):
     def init_ui(self):
         # Preview content
         self.setObjectName("PreviewWebEngineWidget")
-        self.setHtml("<h1>Preview markdown</h1>")
 
     def update_html(self, html):
         self.setHtml(html)

@@ -1,8 +1,8 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QLineEdit, QWidget
 from enum import Enum
-from src import config, file_handler
-from src.interpreter import command_handler
+from src import config
+from src.handlers import file_handler, command_handler
 
 
 class TraverseDirType(Enum):
@@ -90,7 +90,7 @@ class TerminalWidget(QWidget):
 
         response = command_handler.manufacture(input)
 
-        if response is not "":
+        if response != "":
             self.output_edit.append(response + "\n")
             logging_add(response + "\n", LoggingType.RESPONSE)
 

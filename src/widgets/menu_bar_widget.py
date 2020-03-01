@@ -1,7 +1,8 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMenuBar
 
-from src import file_handler
+from src.handlers import file_handler
+from src.widgets.preferences_window import preferences_window_widget
 
 
 class MenuBarWidget(QMenuBar):
@@ -65,6 +66,8 @@ class MenuBarWidget(QMenuBar):
 
         self.preferences_action = QtWidgets.QAction(self)
         self.preferences_action.setObjectName("SettingsMenuPreferencesAction")
+        self.preferences_action.triggered.connect(lambda triggered: preferences_window_widget.on_open(self.main_window))
+
         self.theme_action = QtWidgets.QAction(self)
         self.theme_action.setObjectName("SettingsMenuThemeAction")
         self.stylesheet_action = QtWidgets.QAction(self)
