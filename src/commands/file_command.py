@@ -1,6 +1,5 @@
-from src.handlers import file_handler
-from src.interpreter import command_helper
-from src.interpreter.commands.base_command import BaseCommand
+from src.handlers import file_handler, command_handler
+from src.commands.base_command import BaseCommand
 
 
 class FileCommand(BaseCommand):
@@ -10,16 +9,16 @@ class FileCommand(BaseCommand):
 
     @staticmethod
     def run(args):
-        linked_commands = command_helper.get_linked_commands(FileCommand)
+        linked_commands = command_handler.get_linked_commands(FileCommand)
 
         if args and args[0] in linked_commands:
             return linked_commands[args[0]].run(args[1:])
 
-        return command_helper.incorrect_command_syntax_notice + FileCommand.get_documentation(linked_commands)
+        return command_handler.incorrect_command_syntax_notice + FileCommand.get_documentation(linked_commands)
 
     @staticmethod
     def get_documentation(linked_commands=None):
-        return command_helper.create_master_command_documentation(FileCommand, "Do any of the following file actions", linked_commands)
+        return command_handler.create_master_command_documentation(FileCommand, "Do any of the following file actions", linked_commands)
 
 
 class FileCreateCommand(FileCommand):
