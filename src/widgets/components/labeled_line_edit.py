@@ -9,12 +9,11 @@ class LabeledLineEdit(QWidget):
 
     def __init__(self, label_text, icon_path=None, parent=None):
         super(LabeledLineEdit, self).__init__(parent)
-        self.init_ui(label_text, icon_path)
 
-    def init_ui(self, label_text, icon_path):
         self.layout = QtWidgets.QHBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(6)
+        self.setLayout(self.layout)
 
         self.label = QtWidgets.QLabel(self)
         self.label.setText(label_text + ": ")

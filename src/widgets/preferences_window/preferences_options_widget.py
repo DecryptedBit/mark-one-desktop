@@ -1,12 +1,10 @@
-from PyQt5.QtWidgets import QTabWidget, QWidget
+from PyQt5.QtWidgets import QTabWidget
 
 
 class PreferencesOptionsWidget(QTabWidget):
     def __init__(self, parent=None):
         super(PreferencesOptionsWidget, self).__init__(parent)
-        self.init_ui()
 
-    def init_ui(self):
         self.setContentsMargins(0, 0, 0, 0)
         self.setTabsClosable(False)
         self.tabBar().setHidden(True)

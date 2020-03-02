@@ -10,12 +10,11 @@ class FlavorsAction(QWidget):
 
     def __init__(self, parent=None):
         super(FlavorsAction, self).__init__(parent)
-        self.init_ui()
 
-    def init_ui(self):
         self.layout = QtWidgets.QHBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(30)
+        self.setLayout(self.layout)
 
         self.using_combo_box = LabeledComboBox("Using", self)
         self.using_combo_box.selectionChanged.connect(

@@ -7,9 +7,7 @@ class EditorInputInstanceWidget(QTextEdit):
 
     def __init__(self, parent=None):
         super(EditorInputInstanceWidget, self).__init__(parent)
-        self.init_ui()
 
-    def init_ui(self):
         self.setStyleSheet("")
         self.setFrameShape(QFrame.NoFrame)
         self.setFrameShadow(QFrame.Plain)

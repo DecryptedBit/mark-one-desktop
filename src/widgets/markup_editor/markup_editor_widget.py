@@ -10,11 +10,9 @@ from src.widgets.markup_editor import editor_widget_instance
 class MarkupEditorWidget(QTabWidget):
     def __init__(self, parent=None):
         super(MarkupEditorWidget, self).__init__(parent)
-        self.init_ui()
 
         self.open_instances = {}
 
-    def init_ui(self):
         self.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.setAutoFillBackground(False)
         self.setStyleSheet("")
@@ -31,10 +29,6 @@ class MarkupEditorWidget(QTabWidget):
         self.setCurrentIndex(0)
         self.setTabsClosable(True)
         self.tabCloseRequested.connect(file_handler.close_file)
-        QtCore.QMetaObject.connectSlotsByName(self)
-
-    def retranslate_ui(self):
-        _translate = QtCore.QCoreApplication.translate
 
     def create_instance(self, file_info, file_content=""):
         # Create a new markup editor instance and get the instance id

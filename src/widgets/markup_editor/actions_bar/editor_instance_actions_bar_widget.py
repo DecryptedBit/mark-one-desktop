@@ -9,10 +9,9 @@ class EditorInstanceActionsBarWidget(QWidget):
 
     def __init__(self, parent=None):
         super(EditorInstanceActionsBarWidget, self).__init__(parent)
-        self.init_ui()
 
-    def init_ui(self):
         self.layout = QtWidgets.QHBoxLayout(self)
+        self.setLayout(self.layout)
 
         self.flavors_action = FlavorsAction(self)
         self.flavors_action.converterSelectionChanged.connect(self.converter_selection_changed)

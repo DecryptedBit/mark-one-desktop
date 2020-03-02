@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets
+from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
 
 from src.widgets.preferences_window.options_widgets.options_flavors_widget import OptionsFlavorsWidget
@@ -16,14 +16,11 @@ class PreferencesWindowWidget(QDialog):
     def __init__(self, settings, parent=None):
         super(PreferencesWindowWidget, self).__init__(parent)
         self.settings = settings
-        self.init_ui()
-
-    def init_ui(self):
-        self.setObjectName("PreferencesWindowWidget")
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 9)
         self.layout.setSpacing(9)
+        self.setLayout(self.layout)
 
         self.option_widgets = [OptionsFlavorsWidget(self.settings, self)]
         self.option_widgets_names = ["Flavors"]
@@ -58,8 +55,6 @@ class PreferencesWindowWidget(QDialog):
 
         button_apply = self.actions_button_box.addButton(QtWidgets.QDialogButtonBox.Apply)
         button_apply.clicked.connect(self.save_settings)
-
-        QtCore.QMetaObject.connectSlotsByName(self)
 
     def hierarchy_item_activated(self, index):
         self.options_widget.setCurrentIndex(index)

@@ -1,8 +1,9 @@
-from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtWidgets import QLineEdit, QWidget
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QWidget
 from enum import Enum
 from src import config
 from src.handlers import file_handler, command_handler
+from src.widgets.terminal_line_edit import TerminalLineEdit
 
 
 class TraverseDirType(Enum):
@@ -30,51 +31,36 @@ class TerminalWidget(QWidget):
 
     def __init__(self, parent=None):
         super(TerminalWidget, self).__init__(parent)
-        self.init_ui()
 
-    def init_ui(self):
-        self.setObjectName("TerminalWidget")
-
-        # Terminal widget layout
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(3, 3, 3, 3)
         self.layout.setSpacing(3)
-        self.layout.setObjectName("TerminalLayout")
+        self.setLayout(self.layout)
 
-        # Terminal widget output text edit
+        # Output text edit
         self.output_edit = QtWidgets.QTextEdit(self)
         self.output_edit.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.output_edit.setReadOnly(True)
-        self.output_edit.setObjectName("TerminalOutputEdit")
         self.layout.addWidget(self.output_edit)
 
-        # Terminal widget interaction area layout
+        # Interaction area layout
         self.interaction_layout = QtWidgets.QHBoxLayout()
         self.interaction_layout.setSpacing(3)
-        self.interaction_layout.setObjectName("TerminalInteractionLayout")
         self.layout.addLayout(self.interaction_layout)
 
-        # Interaction area input line edit
+        # Input line edit
         self.input_edit = TerminalLineEdit(self)
         self.input_edit.setFrame(False)
-        self.input_edit.setObjectName("TerminalInputEdit")
         self.input_edit.returnPressed.connect(self.send_command)
+        self.input_edit.traverseUpPressed.connect(lambda: self.history_traverse(TraverseDirType.UP))
+        self.input_edit.traverseDownPressed.connect(lambda: self.history_traverse(TraverseDirType.DOWN))
         self.interaction_layout.addWidget(self.input_edit)
 
-        # Interaction area input send button
+        # Input send button
         self.send_button = QtWidgets.QPushButton(self)
-        self.send_button.setObjectName("TerminalSendButton")
-        self.interaction_layout.addWidget(self.send_button)
-
-        # Finalization
-        self.retranslate_ui()
+        self.send_button.setText("Send")
         self.send_button.clicked.connect(self.send_command)
-
-        QtCore.QMetaObject.connectSlotsByName(self)
-
-    def retranslate_ui(self):
-        _translate = QtCore.QCoreApplication.translate
-        self.send_button.setText(_translate("TerminalWidget", "Send"))
+        self.interaction_layout.addWidget(self.send_button)
 
     def send_command(self):
         input = self.input_edit.text()
@@ -115,19 +101,3 @@ class TerminalWidget(QWidget):
                 self.input_edit.setText(self.command_history[self.history_index])
             elif self.history_index == len(self.command_history):
                 self.input_edit.clear()
-
-
-class TerminalLineEdit(QLineEdit):
-    def __init__(self, parent=None):
-        super(TerminalLineEdit, self).__init__(parent)
-        self.parent = parent
-
-    def keyPressEvent(self, event):
-        key = event.key()
-
-        if key > 0 and key == QtCore.Qt.Key_Up:
-            self.parent.history_traverse(TraverseDirType.UP) # history_traverse(TraverseDir.UP)
-        if key > 0 and key == QtCore.Qt.Key_Down:
-            self.parent.history_traverse(TraverseDirType.DOWN)
-
-        super(TerminalLineEdit, self).keyPressEvent(event)

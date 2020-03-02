@@ -8,12 +8,11 @@ class OptionsFlavorsWidget(QWidget):
     def __init__(self, settings, parent=None):
         super(OptionsFlavorsWidget, self).__init__(parent)
         self.settings = settings
-        self.init_ui()
 
-    def init_ui(self):
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(18, 18, 18, 18)
         self.layout.setSpacing(9)
+        self.setLayout(self.layout)
 
         # Entries
         self.pandoc_path_input_entry = LabeledLineEdit("Pandoc path", parent=self)

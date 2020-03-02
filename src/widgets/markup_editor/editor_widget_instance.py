@@ -13,16 +13,14 @@ class EditorInstanceWidget(QWidget):
     converter = None
 
     def __init__(self, parent=None):
-        self.parent = parent
         self.content_edited = False
 
         super(EditorInstanceWidget, self).__init__(parent)
-        self.init_ui()
 
-    def init_ui(self):
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
+        self.setLayout(self.layout)
 
         # Markup actions bar
         self.actions_bar_widget = EditorInstanceActionsBarWidget(self)
@@ -39,6 +37,7 @@ class EditorInstanceWidget(QWidget):
 
         self.editor_widget_layout = QtWidgets.QGridLayout(self.editor_widget)
         self.editor_widget_layout.setContentsMargins(0, 0, 0, 0)
+        self.editor_widget.setLayout(self.editor_widget_layout)
 
         # Markup input
         self.markup_input_widget = editor_instance_input_widget.EditorInputInstanceWidget(self)
@@ -81,7 +80,7 @@ class EditorInstanceWidget(QWidget):
 
         if self.converter is not None:
             converted_content = self.converter.convert(content)
-            self.markup_preview_widget.update_html(converted_content)
+            self.markup_preview_widget.update_content(converted_content)
 
         self.contentChanged.emit()
 

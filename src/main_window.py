@@ -15,19 +15,12 @@ class MainWindow(QMainWindow):
 
         self.settings = QSettings("DeBit", "MarkI-Desktop")
 
-        self.init_ui()
-
-    def init_ui(self):
         self.resize(config.UI_RESOLUTION[0], config.UI_RESOLUTION[1])
-        self.setWindowTitle('Markup Project ALPHA')
+        self.setWindowTitle('MarkI ALPHA')
         self.setWindowIcon(QIcon('resources/logo.svg'))
-
-        self.setObjectName("MainWindow")
         self.setAutoFillBackground(False)
 
-        # Main window layout
         self.layout = QtWidgets.QGridLayout(self)
-        self.layout.setObjectName("MainWindowLayout")
         self.setLayout(self.layout)
 
         # Menu bar
@@ -37,9 +30,9 @@ class MainWindow(QMainWindow):
         # File explorer
         self.file_explorer_dock_widget = QtWidgets.QDockWidget(self)
         self.file_explorer_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.file_explorer_dock_widget.setObjectName("FileExplorerDockWidget")
 
         self.file_explorer_widget = file_explorer_widget.FileExplorer(self)
+        self.file_explorer_dock_widget.setWindowTitle("File explorer")
         self.file_explorer_dock_widget.setWidget(self.file_explorer_widget)
         self.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.file_explorer_dock_widget)
 
@@ -48,8 +41,8 @@ class MainWindow(QMainWindow):
 
         # Terminal
         self.terminal_dock_widget = QtWidgets.QDockWidget(self)
+        self.terminal_dock_widget.setWindowTitle("Terminal")
         self.terminal_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
-        self.terminal_dock_widget.setObjectName("TerminalDockWidget")
 
         self.terminal_widget = terminal_widget.TerminalWidget(self)
         self.terminal_dock_widget.setWidget(self.terminal_widget)
@@ -57,19 +50,6 @@ class MainWindow(QMainWindow):
 
         # Finalization
         self.setCentralWidget(self.markup_editor_widget)
-        self.retranslate_ui()
-        QtCore.QMetaObject.connectSlotsByName(self)
-
-    def retranslate_ui(self):
-        _translate = QtCore.QCoreApplication.translate
-
-        self.file_explorer_dock_widget.setWindowTitle(_translate("MainWindow", "File explorer"))
-        self.terminal_dock_widget.setWindowTitle(_translate("MainWindow", "Terminal"))
-
-        self.menu_bar_widget.retranslate_ui()
-        self.markup_editor_widget.retranslate_ui()
-        self.file_explorer_widget.retranslate_ui()
-        self.terminal_widget.retranslate_ui()
 
     def handle_file_closing(self, event):
         open_editor_tab_count = self.markup_editor_widget.count()
