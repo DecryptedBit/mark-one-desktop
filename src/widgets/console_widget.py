@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QWidget
 from enum import Enum
 from src import config
 from src.handlers import file_handler, command_handler
-from src.widgets.terminal_line_edit import TerminalLineEdit
+from src.widgets.console_line_edit import ConsoleLineEdit
 
 
 class TraverseDirType(Enum):
@@ -17,20 +17,20 @@ class LoggingType(Enum):
 
 
 def logging_add(text, logging_type):
-    if logging_type is LoggingType.INPUT and config.TERMINAL_LOGGING is False:
+    if logging_type is LoggingType.INPUT and config.CONSOLE_LOGGING is False:
         return
-    elif logging_type is LoggingType.RESPONSE and config.TERMINAL_RESPONSE_LOGGING is False:
+    elif logging_type is LoggingType.RESPONSE and config.CONSOLE_RESPONSE_LOGGING is False:
         return
 
-    file_handler.append_file(config.TERMINAL_LOG_FILE_PATH, text)
+    file_handler.append_file(config.CONSOLE_LOG_FILE_PATH, text)
 
 
-class TerminalWidget(QWidget):
+class ConsoleWidget(QWidget):
     command_history = []
     history_index = 0
 
     def __init__(self, parent=None):
-        super(TerminalWidget, self).__init__(parent)
+        super(ConsoleWidget, self).__init__(parent)
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(3, 3, 3, 3)
@@ -49,7 +49,7 @@ class TerminalWidget(QWidget):
         self.layout.addLayout(self.interaction_layout)
 
         # Input line edit
-        self.input_edit = TerminalLineEdit(self)
+        self.input_edit = ConsoleLineEdit(self)
         self.input_edit.setFrame(False)
         self.input_edit.returnPressed.connect(self.send_command)
         self.input_edit.traverseUpPressed.connect(lambda: self.history_traverse(TraverseDirType.UP))
@@ -72,7 +72,7 @@ class TerminalWidget(QWidget):
         logging_add(input, LoggingType.INPUT)
 
         self.input_edit.clear()
-        self.output_edit.append(config.TERMINAL_PREFIX + input)
+        self.output_edit.append(config.CONSOLE_PREFIX + input)
 
         response = command_handler.manufacture(input)
 
@@ -83,12 +83,12 @@ class TerminalWidget(QWidget):
     def history_add(self, command):
         self.command_history.append(command)
 
-        if len(self.command_history) > config.TERMINAL_HISTORY_LEN:
+        if len(self.command_history) > config.CONSOLE_HISTORY_LEN:
             self.command_history.pop(0)
 
         self.history_index = len(self.command_history)
 
-        print(f'Terminal history: {self.command_history}')
+        print(f'Console history: {self.command_history}')
 
     def history_traverse(self, traverse_dir):
         if self.command_history:

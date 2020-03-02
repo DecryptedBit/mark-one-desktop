@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QMainWindow
 
 from src import config
 from src.handlers import file_handler
-from src.widgets import terminal_widget, file_explorer_widget, menu_bar_widget
+from src.widgets import console_widget, file_explorer_widget, menu_bar_widget
 from src.widgets.markup_editor import markup_editor_widget
 
 
@@ -39,14 +39,14 @@ class MainWindow(QMainWindow):
         # Markup editor
         self.markup_editor_widget = markup_editor_widget.MarkupEditorWidget(self)
 
-        # Terminal
-        self.terminal_dock_widget = QtWidgets.QDockWidget(self)
-        self.terminal_dock_widget.setWindowTitle("Terminal")
-        self.terminal_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
+        # Console
+        self.console_dock_widget = QtWidgets.QDockWidget(self)
+        self.console_dock_widget.setWindowTitle("Console")
+        self.console_dock_widget.setFeatures(QtWidgets.QDockWidget.AllDockWidgetFeatures)
 
-        self.terminal_widget = terminal_widget.TerminalWidget(self)
-        self.terminal_dock_widget.setWidget(self.terminal_widget)
-        self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.terminal_dock_widget)
+        self.console_widget = console_widget.ConsoleWidget(self)
+        self.console_dock_widget.setWidget(self.console_widget)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.console_dock_widget)
 
         # Finalization
         self.setCentralWidget(self.markup_editor_widget)
