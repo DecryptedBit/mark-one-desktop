@@ -1,15 +1,14 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMenuBar
 
+from src import widget_manager
 from src.handlers import file_handler
-from src.widgets.preferences_window import preferences_window_widget
+from src.widgets.preferences_window.preferences_window_widget import PreferencesWindowWidget
 
 
 class MenuBarWidget(QMenuBar):
     def __init__(self, parent=None):
         super(MenuBarWidget, self).__init__(parent)
-
-        self.main_window = parent
 
         self.setGeometry(QtCore.QRect(0, 0, 1057, 21))
         self.setDefaultUp(False)
@@ -64,7 +63,7 @@ class MenuBarWidget(QMenuBar):
 
         self.preferences_action = QtWidgets.QAction(self)
         self.preferences_action.setText("Preferences")
-        self.preferences_action.triggered.connect(lambda triggered: preferences_window_widget.on_open(self.main_window))
+        self.preferences_action.triggered.connect(lambda: PreferencesWindowWidget(widget_manager.main_window).exec())
 
         self.theme_action = QtWidgets.QAction(self)
         self.theme_action.setText("Theme")

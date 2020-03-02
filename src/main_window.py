@@ -3,7 +3,7 @@ from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
-from src import config
+from src import config, widget_manager
 from src.handlers import file_handler
 from src.widgets import console_widget, file_explorer_widget, menu_bar_widget
 from src.widgets.markup_editor import markup_editor_widget
@@ -22,6 +22,7 @@ class MainWindow(QMainWindow):
 
         self.layout = QtWidgets.QGridLayout(self)
         self.setLayout(self.layout)
+        widget_manager.main_window = self
 
         # Menu bar
         self.menu_bar_widget = menu_bar_widget.MenuBarWidget(self)
@@ -35,9 +36,11 @@ class MainWindow(QMainWindow):
         self.file_explorer_dock_widget.setWindowTitle("File explorer")
         self.file_explorer_dock_widget.setWidget(self.file_explorer_widget)
         self.addDockWidget(QtCore.Qt.DockWidgetArea(1), self.file_explorer_dock_widget)
+        widget_manager.file_explorer_widget = self.file_explorer_widget
 
         # Markup editor
         self.markup_editor_widget = markup_editor_widget.MarkupEditorWidget(self)
+        widget_manager.markup_editor_widget = self.markup_editor_widget
 
         # Console
         self.console_dock_widget = QtWidgets.QDockWidget(self)
@@ -47,6 +50,7 @@ class MainWindow(QMainWindow):
         self.console_widget = console_widget.ConsoleWidget(self)
         self.console_dock_widget.setWidget(self.console_widget)
         self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.console_dock_widget)
+        widget_manager.console_widget = self.console_widget
 
         # Finalization
         self.setCentralWidget(self.markup_editor_widget)

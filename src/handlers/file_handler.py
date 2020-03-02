@@ -3,14 +3,14 @@ from enum import Enum
 
 from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
-from src import config
+from src import config, widget_manager
 
 main_window = None
 
 
-def initialize(main_window_inst):
+def initialize():
     global main_window
-    main_window = main_window_inst
+    main_window = widget_manager.main_window
 
 
 def create_file():

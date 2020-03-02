@@ -7,11 +7,11 @@ from src import main_window
 from src.handlers import file_handler, settings_handler, command_handler, converter_handler
 
 
-def initialize(main_window_inst):
+def initialize():
     converter_handler.initialize()
-    command_handler.initialize(main_window_inst)
-    file_handler.initialize(main_window_inst)
-    settings_handler.read_settings(main_window_inst.settings)
+    command_handler.initialize()
+    file_handler.initialize()
+    settings_handler.initialize()
 
 
 if __name__ == "__main__":
@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     window = main_window.MainWindow()
 
-    initialize(window)
+    initialize()
 
     window.show()
     sys.exit(app.exec_())

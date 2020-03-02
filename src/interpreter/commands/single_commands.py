@@ -1,3 +1,4 @@
+from src import widget_manager
 from src.interpreter import command_helper
 from src.interpreter.commands.base_command import BaseCommand
 
@@ -23,7 +24,7 @@ class ClearCommand(BaseCommand):
 
     @staticmethod
     def run(args):
-        command_helper.main_window.terminal_widget.output_edit.clear()
+        widget_manager.console_widget.output_edit.clear()
         return ""
 
     @staticmethod

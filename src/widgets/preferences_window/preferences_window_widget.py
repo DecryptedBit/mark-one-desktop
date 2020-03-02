@@ -1,28 +1,23 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QDialog
 
+from src import widget_manager
 from src.widgets.preferences_window.options_widgets.options_flavors_widget import OptionsFlavorsWidget
 from src.widgets.preferences_window.preferences_index_widget import PreferencesIndexWidget
 from src.widgets.preferences_window.preferences_options_widget import PreferencesOptionsWidget
 
 
-def on_open(main_window):
-    settings = main_window.settings
-    preference_dialog = PreferencesWindowWidget(settings, main_window)
-    preference_dialog.exec()
-
-
 class PreferencesWindowWidget(QDialog):
-    def __init__(self, settings, parent=None):
+    def __init__(self, parent=None):
         super(PreferencesWindowWidget, self).__init__(parent)
-        self.settings = settings
+        self.settings = widget_manager.main_window.settings
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 9)
         self.layout.setSpacing(9)
         self.setLayout(self.layout)
 
-        self.option_widgets = [OptionsFlavorsWidget(self.settings, self)]
+        self.option_widgets = [OptionsFlavorsWidget(self)]
         self.option_widgets_names = ["Flavors"]
 
         # Index

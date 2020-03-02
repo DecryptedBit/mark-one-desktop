@@ -1,13 +1,14 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QWidget
 
+from src import widget_manager
 from src.widgets.components.labeled_line_edit import LabeledLineEdit
 
 
 class OptionsFlavorsWidget(QWidget):
-    def __init__(self, settings, parent=None):
+    def __init__(self, parent=None):
         super(OptionsFlavorsWidget, self).__init__(parent)
-        self.settings = settings
+        self.settings = widget_manager.main_window.settings
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(18, 18, 18, 18)

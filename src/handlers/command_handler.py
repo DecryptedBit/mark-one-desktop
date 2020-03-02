@@ -1,8 +1,8 @@
 from src.interpreter import command_helper
 
 
-def initialize(main_window_inst):
-    command_helper.initialize(main_window_inst)
+def initialize():
+    command_helper.initialize()
 
 
 def manufacture(text):

@@ -4,15 +4,13 @@ import pkgutil
 from src.interpreter import commands
 from src.interpreter.commands import base_command
 
-main_window = None
 command_list = {}
 incorrect_command_syntax_notice = "Syntax of this command is incorrect, consider the following help:\n" \
                                 + "------------------------------------------------\n"
 
 
-def initialize(main_window_inst):
-    global main_window, command_list
-    main_window = main_window_inst
+def initialize():
+    global command_list
 
     # Import all command modules
     package = commands
