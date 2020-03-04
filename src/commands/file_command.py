@@ -1,4 +1,5 @@
-from src.handlers import file_handler, command_handler
+from src import widget_manager
+from src.handlers import command_handler
 from src.commands.base_command import BaseCommand
 
 
@@ -21,19 +22,23 @@ class FileCommand(BaseCommand):
         return command_handler.create_master_command_documentation(FileCommand, "Do any of the following file actions", linked_commands)
 
 
-class FileCreateCommand(FileCommand):
+class FileNewCommand(FileCommand):
     @staticmethod
     def get_name():
-        return 'create'
+        return 'new'
 
     @staticmethod
     def run(args):
-        file_handler.create_file()
-        return "Created a file called 'New file'."
+        result = widget_manager.markup_editor_widget.create_new_file()
+
+        if result:
+            return f'Created a new file: {result}'
+        else:
+            return 'Failed trying to create file.'
 
     @staticmethod
     def get_documentation():
-        return f'{FileCreateCommand.get_name()}\tCreate a new file.'
+        return f'{FileNewCommand.get_name()}\tCreate a new file.'
 
 
 class FileOpenCommand(FileCommand):
@@ -43,12 +48,12 @@ class FileOpenCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        file_info = file_handler.open_file()
+        result = widget_manager.markup_editor_widget.open_file()
 
-        if file_info is not None:
-            return f'Opened a file called \'{file_info[0]}\' at {file_info[1]} with type {file_info[2]}.'
+        if result:
+            return f'Opened a file: {result}'
         else:
-            return 'Opening file has been cancelled.'
+            return 'Failed trying to open file.'
 
     @staticmethod
     def get_documentation():
@@ -62,13 +67,12 @@ class FileSaveCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        instance_info = file_handler.save_file()
+        result = widget_manager.markup_editor_widget.save_file()
 
-        if instance_info is None:
-            return f'This action is not available at the moment'
-
-        file_info = instance_info[1]
-        return f'Saved a file with id {instance_info[0]} called \'{file_info[0]}\' at {file_info[1]} with type {file_info[2]}.'
+        if result:
+            return f'Saved a file: {result}'
+        else:
+            return 'Failed trying to save file.'
 
     @staticmethod
     def get_documentation():
@@ -82,14 +86,32 @@ class FileSaveAsCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        instance_info = file_handler.save_file_as()
+        result = widget_manager.markup_editor_widget.save_file_as()
 
-        if instance_info is None:
-            return f'This action is not available at the moment'
-
-        file_info = instance_info[1]
-        return f'Saved a file with id {instance_info[0]} called \'{file_info[0]}\' at {file_info[1]} with type {file_info[2]}.'
+        if result:
+            return f'Saved a file as: {result}'
+        else:
+            return 'Failed trying to save file as.'
 
     @staticmethod
     def get_documentation():
         return f'{FileSaveAsCommand.get_name()}\tSave a file as.'
+
+
+class FileCloseCommand(FileCommand):
+    @staticmethod
+    def get_name():
+        return 'close'
+
+    @staticmethod
+    def run(args):
+        result = widget_manager.markup_editor_widget.close_file()
+
+        if type(result) == str:
+            return f'Closed a file: {result}'
+        else:
+            return 'Failed trying to close file.'
+
+    @staticmethod
+    def get_documentation():
+        return f'{FileCloseCommand.get_name()}\tClose a file.'

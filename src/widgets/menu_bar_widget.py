@@ -2,7 +2,6 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMenuBar
 
 from src import widget_manager
-from src.handlers import file_handler
 from src.widgets.preferences_window.preferences_window_widget import PreferencesWindowWidget
 
 
@@ -22,21 +21,21 @@ class MenuBarWidget(QMenuBar):
         self.new_action = QtWidgets.QAction(self)
         self.new_action.setText("New")
         self.new_action.setShortcut("Ctrl+N")
-        self.new_action.triggered.connect(file_handler.create_file)
+        self.new_action.triggered.connect(widget_manager.markup_editor_widget.create_new_file)
 
         self.open_action = QtWidgets.QAction(self)
         self.open_action.setText("Open")
         self.open_action.setShortcut("Ctrl+O")
-        self.open_action.triggered.connect(file_handler.open_file)
+        self.open_action.triggered.connect(widget_manager.markup_editor_widget.open_file)
 
         self.save_action = QtWidgets.QAction(self)
         self.save_action.setText("Save")
         self.save_action.setShortcut("Ctrl+S")
-        self.save_action.triggered.connect(file_handler.save_file)
+        self.save_action.triggered.connect(widget_manager.markup_editor_widget.save_file)
 
         self.save_as_action = QtWidgets.QAction(self)
         self.save_as_action.setText("Save as")
-        self.save_as_action.triggered.connect(file_handler.save_file_as)
+        self.save_as_action.triggered.connect(widget_manager.markup_editor_widget.save_file_as)
 
         self.file_item.addAction(self.new_action)
         self.file_item.addAction(self.open_action)

@@ -9,10 +9,13 @@ from src.widgets.markup_editor.actions_bar.editor_instance_actions_bar_widget im
 
 
 class EditorInstanceWidget(QWidget):
-    contentChanged = QtCore.pyqtSignal()
+    onFirstContentEdit = QtCore.pyqtSignal()
     converter = None
 
-    def __init__(self, parent=None):
+    def __init__(self, file_name, file_path, file_type, parent=None):
+        self.file_name = file_name
+        self.file_path = file_path
+        self.file_type = file_type
         self.content_edited = False
 
         super(EditorInstanceWidget, self).__init__(parent)
@@ -53,12 +56,10 @@ class EditorInstanceWidget(QWidget):
         self.markup_input_preview_splitter.setSizes([sys.maxsize, sys.maxsize])
         self.editor_widget_layout.addWidget(self.markup_input_preview_splitter)
 
-        # Finalization
-        self.retranslate_ui()
-        QtCore.QMetaObject.connectSlotsByName(self)
-
-    def retranslate_ui(self):
-        _translate = QtCore.QCoreApplication.translate
+    def update(self, file_info):
+        self.file_name = file_info[0]
+        self.file_path = file_info[1]
+        self.file_type = file_info[2]
 
     def converter_selection_changed(self, converter_name, from_type_index, to_type_index):
         converter_class = converter_handler.get_converter(converter_name)
@@ -76,16 +77,25 @@ class EditorInstanceWidget(QWidget):
               "\n\tTo:", self.converter.get_to_type())
 
     def content_changed(self, content):
-        self.content_edited = True
+        if self.content_edited is False:
+            self.onFirstContentEdit.emit()
+            self.content_edited = True
 
         if self.converter is not None:
             converted_content = self.converter.convert(content)
             self.markup_preview_widget.update_content(converted_content)
 
-        self.contentChanged.emit()
-
-    def reset_content_changed(self):
+    def reset_changed_state(self):
         self.content_edited = False
+
+    def get_file_info(self):
+        return self.file_name, self.file_path, self.file_type
+
+    def get_file_info_string(self):
+        return f'\n\tName: {self.file_name} \n\tPath: {self.file_path} \n\tType: {self.file_type}'
 
     def set_content(self, content):
         self.markup_input_widget.setText(content)
+
+    def get_content(self):
+        return self.markup_input_widget.toPlainText()

@@ -4,13 +4,12 @@ import sys
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QApplication
 from src import main_window
-from src.handlers import file_handler, settings_handler, command_handler, converter_handler
+from src.handlers import settings_handler, command_handler, converter_handler
 
 
 def initialize():
     converter_handler.initialize()
     command_handler.initialize()
-    file_handler.initialize()
     settings_handler.initialize()
 
 

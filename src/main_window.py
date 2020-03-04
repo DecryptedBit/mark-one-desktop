@@ -4,7 +4,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
 from src import config, widget_manager
-from src.handlers import file_handler
 from src.widgets import console_widget, file_explorer_widget, menu_bar_widget
 from src.widgets.markup_editor import markup_editor_widget
 
@@ -23,10 +22,6 @@ class MainWindow(QMainWindow):
         self.layout = QtWidgets.QGridLayout(self)
         self.setLayout(self.layout)
         widget_manager.main_window = self
-
-        # Menu bar
-        self.menu_bar_widget = menu_bar_widget.MenuBarWidget(self)
-        self.setMenuBar(self.menu_bar_widget)
 
         # File explorer
         self.file_explorer_dock_widget = QtWidgets.QDockWidget(self)
@@ -52,25 +47,20 @@ class MainWindow(QMainWindow):
         self.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.console_dock_widget)
         widget_manager.console_widget = self.console_widget
 
+        # Menu bar
+        self.menu_bar_widget = menu_bar_widget.MenuBarWidget(self)
+        self.setMenuBar(self.menu_bar_widget)
+
         # Finalization
         self.setCentralWidget(self.markup_editor_widget)
 
-    def handle_file_closing(self, event):
-        open_editor_tab_count = self.markup_editor_widget.count()
-        forced_close_option = None
+    def on_close_request(self, event):
+        result = self.markup_editor_widget.close_files()
 
-        # Loop through every open instance and request to close it
-        for i in reversed(range(open_editor_tab_count)):
-            option_chosen = file_handler.close_file(i, True, forced_close_option)
-
-            if option_chosen is not None:
-                forced_close_option = option_chosen
-
-            if option_chosen is file_handler.CloseFileReplyType.CANCEL:
-                event.ignore()
-                return
-
-        event.accept()
+        if result is self.markup_editor_widget.CloseReplyType.CANCELLED:
+            event.ignore()
+        else:
+            event.accept()
 
     def closeEvent(self, event):
-        self.handle_file_closing(event)
+        self.on_close_request(event)
