@@ -22,16 +22,13 @@ def instantiate_file_dialog(file_dialog_type, title, file_types):
         file_dialog_response = QFileDialog.getSaveFileName(widget_manager.main_window, title,
                                                            config.DEFAULT_SAVE_DIR, file_types)
 
+    file_path = file_dialog_response[0]
+
     # Check if the response was valid
-    if '' in file_dialog_response or file_dialog_response is None:
+    if file_path == '' or file_dialog_response is None:
         return None
 
-    # Get all the information out of the response
-    file_types = file_dialog_response[1]
-    file_path = file_dialog_response[0]
-    file_name = os.path.basename(file_path)
-
-    return file_name, file_path, file_types
+    return file_path
 
 
 def write_file(file_path, file_content):

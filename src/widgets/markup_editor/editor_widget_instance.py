@@ -1,4 +1,4 @@
-import sys
+import os
 
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QWidget
@@ -12,10 +12,14 @@ class EditorInstanceWidget(QWidget):
     onFirstContentEdit = QtCore.pyqtSignal()
     converter = None
 
-    def __init__(self, file_name, file_path, file_type, parent=None):
-        self.file_name = file_name
+    def __init__(self, file_path, file_content=None, parent=None):
         self.file_path = file_path
-        self.file_type = file_type
+
+        if not file_content:
+            self.is_new_file = True
+        else:
+            self.is_new_file = False
+
         self.content_edited = False
 
         super(EditorInstanceWidget, self).__init__(parent)
@@ -44,6 +48,8 @@ class EditorInstanceWidget(QWidget):
 
         # Markup input
         self.markup_input_widget = editor_instance_input_widget.EditorInputInstanceWidget(self)
+        if file_content:
+            self.markup_input_widget.setText(file_content)
         self.markup_input_widget.contentChanged.connect(self.content_changed)
 
         # Markup preview
@@ -53,13 +59,11 @@ class EditorInstanceWidget(QWidget):
         self.markup_input_preview_splitter = QtWidgets.QSplitter()
         self.markup_input_preview_splitter.addWidget(self.markup_input_widget)
         self.markup_input_preview_splitter.addWidget(self.markup_preview_widget)
-        self.markup_input_preview_splitter.setSizes([sys.maxsize, sys.maxsize])
+        self.markup_input_preview_splitter.setSizes([1000, 1000])
         self.editor_widget_layout.addWidget(self.markup_input_preview_splitter)
 
-    def update(self, file_info):
-        self.file_name = file_info[0]
-        self.file_path = file_info[1]
-        self.file_type = file_info[2]
+    def update(self, file_path):
+        self.file_path = file_path
 
     def converter_selection_changed(self, converter_name, from_type_index, to_type_index):
         converter_class = converter_handler.get_converter(converter_name)
@@ -88,11 +92,17 @@ class EditorInstanceWidget(QWidget):
     def reset_changed_state(self):
         self.content_edited = False
 
-    def get_file_info(self):
-        return self.file_name, self.file_path, self.file_type
+    def get_file_path(self):
+        return self.file_path
 
-    def get_file_info_string(self):
-        return f'\n\tName: {self.file_name} \n\tPath: {self.file_path} \n\tType: {self.file_type}'
+    def get_file_name(self):
+        return os.path.basename(self.file_path)
+
+    def set_is_new_file(self, boolean):
+        self.is_new_file = boolean
+
+    def get_is_new_file(self):
+        return self.is_new_file
 
     def set_content(self, content):
         self.markup_input_widget.setText(content)
