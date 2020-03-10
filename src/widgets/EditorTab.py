@@ -4,11 +4,10 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QWidget
 
 from src.handlers import converter_handler
-from src.widgets.markup_editor import editor_instance_input_widget, editor_instance_preview_widget
-from src.widgets.markup_editor.actions_bar.editor_instance_actions_bar_widget import EditorInstanceActionsBarWidget
+from src.widgets import EditorTextEdit, EditorWebEngineView, EditorActionsWidget
 
 
-class EditorInstanceWidget(QWidget):
+class EditorTab(QWidget):
     onFirstContentEdit = QtCore.pyqtSignal()
     converter = None
 
@@ -22,23 +21,23 @@ class EditorInstanceWidget(QWidget):
 
         self.content_edited = False
 
-        super(EditorInstanceWidget, self).__init__(parent)
+        super(EditorTab, self).__init__(parent)
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
         self.setLayout(self.layout)
 
-        # Markup actions bar
-        self.actions_bar_widget = EditorInstanceActionsBarWidget(self)
-        self.actions_bar_widget.converterSelectionChanged.connect(self.converter_selection_changed)
+        # Editor actions widget
+        self.editor_actions_widget = EditorActionsWidget.EditorActionsWidget(self)
+        self.editor_actions_widget.converterSelectionChanged.connect(self.converter_selection_changed)
 
-        converter_selection = self.actions_bar_widget.get_converter_selection()
+        converter_selection = self.editor_actions_widget.get_converter_selection()
         self.converter_selection_changed(converter_selection[0], converter_selection[1], converter_selection[2])
 
-        self.layout.addWidget(self.actions_bar_widget)
+        self.layout.addWidget(self.editor_actions_widget)
 
-        # Markup editor widgets
+        # Editor text edit parent
         self.editor_widget = QtWidgets.QWidget(self)
         self.layout.addWidget(self.editor_widget, 1)
 
@@ -46,21 +45,21 @@ class EditorInstanceWidget(QWidget):
         self.editor_widget_layout.setContentsMargins(0, 0, 0, 0)
         self.editor_widget.setLayout(self.editor_widget_layout)
 
-        # Markup input
-        self.markup_input_widget = editor_instance_input_widget.EditorInputInstanceWidget(self)
+        # Editor text edit
+        self.editor_text_edit = EditorTextEdit.EditorTextEdit(self)
         if file_content:
-            self.markup_input_widget.setText(file_content)
-        self.markup_input_widget.contentChanged.connect(self.content_changed)
+            self.editor_text_edit.setText(file_content)
+        self.editor_text_edit.contentChanged.connect(self.content_changed)
 
         # Markup preview
-        self.markup_preview_widget = editor_instance_preview_widget.EditorPreviewInstanceWidget(self)
+        self.editor_web_engine_view = EditorWebEngineView.EditorWebEngineView(self)
 
         # Splitter between input and preview
-        self.markup_input_preview_splitter = QtWidgets.QSplitter()
-        self.markup_input_preview_splitter.addWidget(self.markup_input_widget)
-        self.markup_input_preview_splitter.addWidget(self.markup_preview_widget)
-        self.markup_input_preview_splitter.setSizes([1000, 1000])
-        self.editor_widget_layout.addWidget(self.markup_input_preview_splitter)
+        self.splitter = QtWidgets.QSplitter()
+        self.splitter.addWidget(self.editor_text_edit)
+        self.splitter.addWidget(self.editor_web_engine_view)
+        self.splitter.setSizes([1000, 1000])
+        self.editor_widget_layout.addWidget(self.splitter)
 
     def update(self, file_path):
         self.file_path = file_path
@@ -87,7 +86,7 @@ class EditorInstanceWidget(QWidget):
 
         if self.converter is not None:
             converted_content = self.converter.convert(content)
-            self.markup_preview_widget.update_content(converted_content)
+            self.editor_web_engine_view.update_content(converted_content)
 
     def reset_changed_state(self):
         self.content_edited = False
@@ -105,7 +104,7 @@ class EditorInstanceWidget(QWidget):
         return self.is_new_file
 
     def set_content(self, content):
-        self.markup_input_widget.setText(content)
+        self.editor_text_edit.setText(content)
 
     def get_content(self):
-        return self.markup_input_widget.toPlainText()
+        return self.editor_text_edit.toPlainText()

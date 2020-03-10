@@ -2,12 +2,12 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QMenuBar
 
 from src import widget_manager
-from src.widgets.preferences_window.preferences_window_widget import PreferencesWindowWidget
+from src.widgets.PreferencesDialog import PreferencesDialog
 
 
-class MenuBarWidget(QMenuBar):
+class MenuBar(QMenuBar):
     def __init__(self, parent=None):
-        super(MenuBarWidget, self).__init__(parent)
+        super(MenuBar, self).__init__(parent)
 
         self.setGeometry(QtCore.QRect(0, 0, 1057, 21))
         self.setDefaultUp(False)
@@ -21,21 +21,21 @@ class MenuBarWidget(QMenuBar):
         self.new_action = QtWidgets.QAction(self)
         self.new_action.setText("New")
         self.new_action.setShortcut("Ctrl+N")
-        self.new_action.triggered.connect(widget_manager.markup_editor_widget.create_new_file)
+        self.new_action.triggered.connect(widget_manager.editor_tab_widget.create_new_file)
 
         self.open_action = QtWidgets.QAction(self)
         self.open_action.setText("Open")
         self.open_action.setShortcut("Ctrl+O")
-        self.open_action.triggered.connect(widget_manager.markup_editor_widget.open_file)
+        self.open_action.triggered.connect(widget_manager.editor_tab_widget.open_file)
 
         self.save_action = QtWidgets.QAction(self)
         self.save_action.setText("Save")
         self.save_action.setShortcut("Ctrl+S")
-        self.save_action.triggered.connect(widget_manager.markup_editor_widget.save_file)
+        self.save_action.triggered.connect(widget_manager.editor_tab_widget.save_file)
 
         self.save_as_action = QtWidgets.QAction(self)
         self.save_as_action.setText("Save as")
-        self.save_as_action.triggered.connect(widget_manager.markup_editor_widget.save_file_as)
+        self.save_as_action.triggered.connect(widget_manager.editor_tab_widget.save_file_as)
 
         self.file_item.addAction(self.new_action)
         self.file_item.addAction(self.open_action)
@@ -62,7 +62,7 @@ class MenuBarWidget(QMenuBar):
 
         self.preferences_action = QtWidgets.QAction(self)
         self.preferences_action.setText("Preferences")
-        self.preferences_action.triggered.connect(lambda: PreferencesWindowWidget(widget_manager.main_window).exec())
+        self.preferences_action.triggered.connect(lambda: PreferencesDialog(widget_manager.main_window).exec())
 
         self.theme_action = QtWidgets.QAction(self)
         self.theme_action.setText("Theme")

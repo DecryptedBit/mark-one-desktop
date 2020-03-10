@@ -5,14 +5,14 @@ from PyQt5.QtWidgets import QTabWidget, QMessageBox
 
 from src import widget_manager
 from src.handlers import file_handler
-from src.widgets.markup_editor import editor_widget_instance
+from src.widgets import EditorTab
 
 
-class MarkupEditorWidget(QTabWidget):
-    edited_instances_amount = 0
+class EditorTabWidget(QTabWidget):
+    edited_tab_amount = 0
 
     def __init__(self, parent=None):
-        super(MarkupEditorWidget, self).__init__(parent)
+        super(EditorTabWidget, self).__init__(parent)
 
         self.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.setAutoFillBackground(False)
@@ -28,13 +28,13 @@ class MarkupEditorWidget(QTabWidget):
         self.setCurrentIndex(0)
         self.tabCloseRequested.connect(self.close_file)
 
-    # region File creation, opening and instance creation
+    # region File creation, opening and tab creation
 
     # Returns file path if file is created successfully
     def create_new_file(self):
-        # Create an instance with the file path
-        editor_instance = self.create_instance("New file")
-        return editor_instance.get_file_path()
+        # Create a tab with the file path
+        editor_tab = self.create_tab("New file")
+        return editor_tab.get_file_path()
 
     # Returns file path if file is opened successfully
     # Returns none if opening failed
@@ -47,24 +47,24 @@ class MarkupEditorWidget(QTabWidget):
         if not file_path:
             return None
 
-        # Create an instance with the file path and content
-        editor_instance = self.create_instance(file_path, file_handler.read_file(file_path))
-        return editor_instance.get_file_path()
+        # Create a tab with the file path and content
+        editor_tab = self.create_tab(file_path, file_handler.read_file(file_path))
+        return editor_tab.get_file_path()
 
-    def create_instance(self, file_path, file_content=None):
-        # Create an editor instance widget
-        editor_instance = editor_widget_instance.EditorInstanceWidget(file_path, file_content, self)
-        editor_instance.onFirstContentEdit.connect(self.on_instance_first_content_edit)
+    def create_tab(self, file_path, file_content=None):
+        # Create an editor tab widget
+        editor_tab = EditorTab.EditorTab(file_path, file_content, self)
+        editor_tab.onFirstContentEdit.connect(self.on_tab_first_content_edit)
 
-        # Add the new editor instance widget as a tab and set the index to this tab
-        self.addTab(editor_instance, editor_instance.get_file_name())
+        # Add the new editor tab widget as a tab and set the index to this tab
+        self.addTab(editor_tab, editor_tab.get_file_name())
         self.setCurrentIndex(self.count() - 1)
 
-        return editor_instance
+        return editor_tab
 
     # endregion
 
-    # region File and instance closing
+    # region File and tab closing
 
     class CloseReplyType(Enum):
         CANCELLED = "cancelled"
@@ -85,7 +85,7 @@ class MarkupEditorWidget(QTabWidget):
         for i in reversed(range(self.count())):
             # Determine if te multiple options option should be used
             multi_options = True
-            if self.edited_instances_amount <= 1:
+            if self.edited_tab_amount <= 1:
                 multi_options = False
 
             close_reply_type = self.close_file(i, multi_options, forced_reply_type)
@@ -112,12 +112,12 @@ class MarkupEditorWidget(QTabWidget):
             tab_num = self.currentIndex()
 
         # Set the variables before setting the index in case the content has not been edited
-        editor_instance = self.widget(tab_num)
-        file_path = editor_instance.get_file_path()
+        editor_tab = self.widget(tab_num)
+        file_path = editor_tab.get_file_path()
 
         # Check if the content has been edited or not
         # If not then there is no need to create a message box
-        if not editor_instance.content_edited:
+        if not editor_tab.content_edited:
             self.removeTab(tab_num)
             return file_path
 
@@ -130,12 +130,12 @@ class MarkupEditorWidget(QTabWidget):
         if forced_type is None:
             if multi_options:
                 dialog_result = QMessageBox.question(widget_manager.main_window, 'Unsaved Changes',
-                                                     f'Should we save \'{editor_instance.get_file_name()}\'?',
+                                                     f'Should we save \'{editor_tab.get_file_name()}\'?',
                                                      QMessageBox.YesAll | QMessageBox.Yes | QMessageBox.No |
                                                      QMessageBox.NoAll | QMessageBox.Cancel, QMessageBox.YesAll)
             else:
                 dialog_result = QMessageBox.question(widget_manager.main_window, 'Unsaved Changes',
-                                                     f'Should we save \'{editor_instance.get_file_name()}\'?',
+                                                     f'Should we save \'{editor_tab.get_file_name()}\'?',
                                                      QMessageBox.Yes | QMessageBox.No |
                                                      QMessageBox.Cancel, QMessageBox.Yes)
 
@@ -173,16 +173,16 @@ class MarkupEditorWidget(QTabWidget):
         if self.count() == 0:
             return None
 
-        editor_instance = self.currentWidget()
+        editor_tab = self.currentWidget()
 
-        if editor_instance.get_is_new_file():
+        if editor_tab.get_is_new_file():
             return self.save_file_as()
         else:
             # Write the content to the file path
-            self.reset_instance_state()
-            file_handler.write_file(editor_instance.get_file_path(),
-                                    editor_instance.get_content())
-            return editor_instance.get_file_path()
+            self.reset_tab_state()
+            file_handler.write_file(editor_tab.get_file_path(),
+                                    editor_tab.get_content())
+            return editor_tab.get_file_path()
 
     # Returns file path if file is saved successfully
     # Returns none if saving failed
@@ -190,7 +190,7 @@ class MarkupEditorWidget(QTabWidget):
         if self.count() == 0:
             return None
 
-        editor_instance = self.currentWidget()
+        editor_tab = self.currentWidget()
 
         # Instantiate a dialog to save the file as, and check if it got cancelled resulting in no file path
         new_file_path = file_handler.instantiate_file_dialog(file_handler.FileDialogType.SAVE, 'Save file as',
@@ -198,38 +198,38 @@ class MarkupEditorWidget(QTabWidget):
         if new_file_path is None:
             return None
 
-        self.update_instance(new_file_path)
-        file_handler.write_file(editor_instance.get_file_path(),
-                                editor_instance.get_content())
+        self.update_tab(new_file_path)
+        file_handler.write_file(editor_tab.get_file_path(),
+                                editor_tab.get_content())
 
-        return editor_instance.get_file_path()
+        return editor_tab.get_file_path()
 
     # endregion
 
-    # region Miscellaneous instance method
+    # region Miscellaneous tab methods
 
-    def update_instance(self, file_path):
-        editor_instance = self.currentWidget()
-        editor_instance.update(file_path)
+    def update_tab(self, file_path):
+        editor_tab = self.currentWidget()
+        editor_tab.update(file_path)
 
-        self.reset_instance_state()
-        self.setTabText(self.currentIndex(), editor_instance.get_file_name())
+        self.reset_tab_state()
+        self.setTabText(self.currentIndex(), editor_tab.get_file_name())
 
-    def reset_instance_state(self):
-        self.edited_instances_amount -= 1
+    def reset_tab_state(self):
+        self.edited_tab_amount -= 1
 
         current_tab_text = self.tabText(self.currentIndex())
-        editor_instance = self.currentWidget()
+        editor_tab = self.currentWidget()
 
-        editor_instance.set_is_new_file(False)
+        editor_tab.set_is_new_file(False)
 
         # Remove the indication that told the contact has changed
-        if editor_instance.content_edited:
+        if editor_tab.content_edited:
             self.setTabText(self.currentIndex(), current_tab_text[:-2])
-            editor_instance.reset_changed_state()
+            editor_tab.reset_changed_state()
 
-    def on_instance_first_content_edit(self):
-        self.edited_instances_amount += 1
+    def on_tab_first_content_edit(self):
+        self.edited_tab_amount += 1
 
         # Update the tab text to indicate a change in content after the last save
         self.setTabText(self.currentIndex(), f'{self.currentWidget().get_file_name()} *')

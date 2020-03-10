@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QWidget
 from enum import Enum
 from src import config
 from src.handlers import file_handler, command_handler
-from src.widgets.console_line_edit import ConsoleLineEdit
+from src.widgets.ConsoleLineEdit import ConsoleLineEdit
 
 
 class TraverseDirType(Enum):
@@ -38,10 +38,10 @@ class ConsoleWidget(QWidget):
         self.setLayout(self.layout)
 
         # Output text edit
-        self.output_edit = QtWidgets.QTextEdit(self)
-        self.output_edit.setFrameShape(QtWidgets.QFrame.NoFrame)
-        self.output_edit.setReadOnly(True)
-        self.layout.addWidget(self.output_edit)
+        self.output_text_edit = QtWidgets.QTextEdit(self)
+        self.output_text_edit.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.output_text_edit.setReadOnly(True)
+        self.layout.addWidget(self.output_text_edit)
 
         # Interaction area layout
         self.interaction_layout = QtWidgets.QHBoxLayout()
@@ -49,12 +49,12 @@ class ConsoleWidget(QWidget):
         self.layout.addLayout(self.interaction_layout)
 
         # Input line edit
-        self.input_edit = ConsoleLineEdit(self)
-        self.input_edit.setFrame(False)
-        self.input_edit.returnPressed.connect(self.send_command)
-        self.input_edit.traverseUpPressed.connect(lambda: self.history_traverse(TraverseDirType.UP))
-        self.input_edit.traverseDownPressed.connect(lambda: self.history_traverse(TraverseDirType.DOWN))
-        self.interaction_layout.addWidget(self.input_edit)
+        self.input_line_edit = ConsoleLineEdit(self)
+        self.input_line_edit.setFrame(False)
+        self.input_line_edit.returnPressed.connect(self.send_command)
+        self.input_line_edit.traverseUpPressed.connect(lambda: self.history_traverse(TraverseDirType.UP))
+        self.input_line_edit.traverseDownPressed.connect(lambda: self.history_traverse(TraverseDirType.DOWN))
+        self.interaction_layout.addWidget(self.input_line_edit)
 
         # Input send button
         self.send_button = QtWidgets.QPushButton(self)
@@ -63,7 +63,7 @@ class ConsoleWidget(QWidget):
         self.interaction_layout.addWidget(self.send_button)
 
     def send_command(self):
-        input = self.input_edit.text()
+        input = self.input_line_edit.text()
 
         if not input:
             return
@@ -71,13 +71,13 @@ class ConsoleWidget(QWidget):
         self.history_add(input)
         logging_add(input, LoggingType.INPUT)
 
-        self.input_edit.clear()
-        self.output_edit.append(config.CONSOLE_PREFIX + input)
+        self.input_line_edit.clear()
+        self.output_text_edit.append(config.CONSOLE_PREFIX + input)
 
         response = command_handler.manufacture(input)
 
         if response != "":
-            self.output_edit.append(response + "\n")
+            self.output_text_edit.append(response + "\n")
             logging_add(response + "\n", LoggingType.RESPONSE)
 
     def history_add(self, command):
@@ -98,6 +98,6 @@ class ConsoleWidget(QWidget):
                 self.history_index += 1
 
             if self.history_index < len(self.command_history):
-                self.input_edit.setText(self.command_history[self.history_index])
+                self.input_line_edit.setText(self.command_history[self.history_index])
             elif self.history_index == len(self.command_history):
-                self.input_edit.clear()
+                self.input_line_edit.clear()

@@ -2,14 +2,14 @@ from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QWidget
 
 from src.handlers import converter_handler
-from src.widgets.components.labeled_combo_box import LabeledComboBox
+from src.widgets.customs.LabeledComboBox import LabeledComboBox
 
 
-class FlavorsAction(QWidget):
+class FlavorsActionWidget(QWidget):
     converterSelectionChanged = QtCore.pyqtSignal(object, int, int)
 
     def __init__(self, parent=None):
-        super(FlavorsAction, self).__init__(parent)
+        super(FlavorsActionWidget, self).__init__(parent)
 
         self.layout = QtWidgets.QHBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)

@@ -1,9 +1,9 @@
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 
 
-class EditorPreviewInstanceWidget(QWebEngineView):
+class EditorWebEngineView(QWebEngineView):
     def __init__(self, parent=None):
-        super(EditorPreviewInstanceWidget, self).__init__(parent)
+        super(EditorWebEngineView, self).__init__(parent)
 
     def update_content(self, content):
         self.setHtml(content)

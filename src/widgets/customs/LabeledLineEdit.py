@@ -1,7 +1,7 @@
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QWidget
 
-from src.widgets.components.button_line_edit import ButtonLineEdit
+from src.widgets.customs.ButtonLineEdit import ButtonLineEdit
 
 
 class LabeledLineEdit(QWidget):

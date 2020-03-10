@@ -2,9 +2,9 @@ from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QTreeView
 
 
-class FileExplorer(QTreeView):
+class FileExplorerTreeView(QTreeView):
     def __init__(self, parent=None):
-        super(FileExplorer, self).__init__(parent)
+        super(FileExplorerTreeView, self).__init__(parent)
 
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.header().setVisible(True)

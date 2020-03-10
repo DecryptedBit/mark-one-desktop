@@ -1,4 +1,4 @@
 main_window = None
-file_explorer_widget = None
+file_explorer_tree_view = None
 console_widget = None
-markup_editor_widget = None
+editor_tab_widget = None

@@ -29,7 +29,7 @@ class FileNewCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        result = widget_manager.markup_editor_widget.create_new_file()
+        result = widget_manager.editor_tab_widget.create_new_file()
 
         if result:
             return f'Created a new file: {result}'
@@ -48,7 +48,7 @@ class FileOpenCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        result = widget_manager.markup_editor_widget.open_file()
+        result = widget_manager.editor_tab_widget.open_file()
 
         if result:
             return f'Opened a file: {result}'
@@ -67,7 +67,7 @@ class FileSaveCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        result = widget_manager.markup_editor_widget.save_file()
+        result = widget_manager.editor_tab_widget.save_file()
 
         if result:
             return f'Saved a file: {result}'
@@ -86,7 +86,7 @@ class FileSaveAsCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        result = widget_manager.markup_editor_widget.save_file_as()
+        result = widget_manager.editor_tab_widget.save_file_as()
 
         if result:
             return f'Saved a file as: {result}'
@@ -105,7 +105,7 @@ class FileCloseCommand(FileCommand):
 
     @staticmethod
     def run(args):
-        result = widget_manager.markup_editor_widget.close_file()
+        result = widget_manager.editor_tab_widget.close_file()
 
         if type(result) == str:
             return f'Closed a file: {result}'
