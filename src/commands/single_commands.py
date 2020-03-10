@@ -24,7 +24,7 @@ class ClearCommand(BaseCommand):
 
     @staticmethod
     def run(args):
-        widget_manager.console_widget.output_edit.clear()
+        widget_manager.console_widget.output_text_edit.clear()
         return ""
 
     @staticmethod
