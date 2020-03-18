@@ -8,8 +8,3 @@ class FileExplorerTreeView(QTreeView):
 
         self.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.header().setVisible(True)
-
-        self.layout = QtWidgets.QGridLayout(self)
-        self.layout.setContentsMargins(3, 3, 3, 3)
-        self.layout.addWidget(self, 0, 0, 1, 1)
-        self.setLayout(self.layout)

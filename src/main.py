@@ -1,17 +1,19 @@
 import os
 import sys
 
-from PyQt5 import QtCore
+import PyQt5
+from PyQt5 import QtCore, Qt
 from PyQt5.QtWidgets import QApplication
 from src.widgets import MainWindow
 from src.handlers import settings_handler, command_handler, converter_handler
+
+PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 
 
 if __name__ == "__main__":
     # Setup the UI
     os.environ["QT_AUTO_SCREEN_SCALE_FACTOR"] = "1"
     app = QApplication(sys.argv)
-    app.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
 
     window = MainWindow.MainWindow()
 

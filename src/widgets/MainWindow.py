@@ -18,8 +18,6 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon('resources/logo.svg'))
         self.setAutoFillBackground(False)
 
-        self.layout = QtWidgets.QGridLayout(self)
-        self.setLayout(self.layout)
         widget_manager.main_window = self
 
         # File explorer
