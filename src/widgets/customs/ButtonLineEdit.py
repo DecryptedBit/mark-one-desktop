@@ -6,9 +6,7 @@ class ButtonLineEdit(QtWidgets.QLineEdit):
 
     def __init__(self, icon_path=None, parent=None):
         super(ButtonLineEdit, self).__init__(parent)
-        self.init_ui(icon_path)
 
-    def init_ui(self, icon_path):
         if icon_path is None:
             icon = QtWidgets.QApplication.style().standardIcon(QtWidgets.QStyle.SP_DirIcon)
         else:

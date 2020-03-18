@@ -1,5 +1,3 @@
-from abc import abstractmethod
-
 import mistune
 
 from src.converters.base_converter import BaseConverter

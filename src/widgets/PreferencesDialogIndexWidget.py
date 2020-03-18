@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QWidget
 
 
@@ -7,14 +7,11 @@ class PreferencesIndexWidget(QWidget):
 
     def __init__(self, parent=None):
         super(PreferencesIndexWidget, self).__init__(parent)
-        self.init_ui()
-
-    def init_ui(self):
-        self.setObjectName("PreferencesIndexWidget")
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(6)
+        self.setLayout(self.layout)
 
         # Search
         self.search_layout = QtWidgets.QHBoxLayout(self)
@@ -34,13 +31,6 @@ class PreferencesIndexWidget(QWidget):
         self.hierarchy_list_widget.setStyleSheet("border: none;")
         self.hierarchy_list_widget.currentItemChanged.connect(self.on_item_changed)
         self.layout.addWidget(self.hierarchy_list_widget)
-
-        self.retranslate_ui()
-
-        QtCore.QMetaObject.connectSlotsByName(self)
-
-    def retranslate_ui(self):
-        _translate = QtCore.QCoreApplication.translate
 
     def on_item_changed(self, item):
         index = self.hierarchy_list_widget.indexFromItem(item).row()

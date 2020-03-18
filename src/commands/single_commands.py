@@ -1,7 +1,6 @@
-from abc import abstractmethod
-
-from src.interpreter import command_helper
-from src.interpreter.commands.base_command import BaseCommand
+from src import widget_manager
+from src.handlers import command_handler
+from src.commands.base_command import BaseCommand
 
 
 class HelpCommand(BaseCommand):
@@ -11,11 +10,10 @@ class HelpCommand(BaseCommand):
 
     @staticmethod
     def run(args):
-        return '\n'.join(command.get_command_documentation() for command in command_helper.command_list.values())
+        return '\n'.join(command.get_documentation() for command in command_handler.command_list.values())
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         return f'{HelpCommand.get_name()}\tShows all commands with documentation'
 
 
@@ -26,12 +24,11 @@ class ClearCommand(BaseCommand):
 
     @staticmethod
     def run(args):
-        command_helper.main_window.terminal_widget.output_edit.clear()
+        widget_manager.console_widget.output_text_edit.clear()
         return ""
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         return f'{ClearCommand.get_name()}\tClear the terminal'
 
 
@@ -45,6 +42,5 @@ class SayCommand(BaseCommand):
         return '"' + ' '.join(args) + '"'
 
     @staticmethod
-    @abstractmethod
-    def get_command_documentation():
+    def get_documentation():
         return f'{SayCommand.get_name()}\tRepeat a sentence'

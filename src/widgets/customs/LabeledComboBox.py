@@ -7,12 +7,11 @@ class LabeledComboBox(QWidget):
 
     def __init__(self, label_text, parent=None):
         super(LabeledComboBox, self).__init__(parent)
-        self.init_ui(label_text)
 
-    def init_ui(self, label_text):
         self.layout = QtWidgets.QHBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(6)
+        self.setLayout(self.layout)
 
         self.label = QtWidgets.QLabel(self)
         self.label.setText(label_text + ": ")

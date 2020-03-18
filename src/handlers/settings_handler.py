@@ -1,7 +1,10 @@
 import os
 
+from src import widget_manager
 
-def read_settings(settings):
+
+def initialize():
+    settings = widget_manager.main_window.settings
     set_pypandoc_path(settings)
 
 
