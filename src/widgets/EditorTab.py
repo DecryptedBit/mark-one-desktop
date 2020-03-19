@@ -61,6 +61,9 @@ class EditorTab(QWidget):
         self.splitter.setSizes([1000, 1000])
         self.editor_widget_layout.addWidget(self.splitter)
 
+        # Finalization
+        self.convert_content(self.editor_text_edit.toPlainText())
+
     def update(self, file_path):
         self.file_path = file_path
 
@@ -84,6 +87,9 @@ class EditorTab(QWidget):
             self.onFirstContentEdit.emit()
             self.content_edited = True
 
+        self.convert_content(content)
+
+    def convert_content(self, content):
         if self.converter is not None:
             converted_content = self.converter.convert(content)
             self.editor_web_engine_view.update_content(converted_content)
