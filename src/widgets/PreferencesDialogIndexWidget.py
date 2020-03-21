@@ -2,11 +2,11 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QWidget
 
 
-class PreferencesIndexWidget(QWidget):
+class PreferencesDialogIndexWidget(QWidget):
     hierarchyItemActivated = QtCore.pyqtSignal(int)
 
     def __init__(self, parent=None):
-        super(PreferencesIndexWidget, self).__init__(parent)
+        super(PreferencesDialogIndexWidget, self).__init__(parent)
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 0)

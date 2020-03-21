@@ -29,8 +29,11 @@ class FlavorsActionWidget(QWidget):
         self.to_combo_box.selectionChanged.connect(self.selection_changed)
         self.layout.addWidget(self.to_combo_box)
 
-        for converter_name in converter_handler.converter_dictionary:
+        for i, (converter_name, converter_class) in enumerate(converter_handler.converter_dictionary.items()):
             self.using_combo_box.add_item(converter_name)
+
+            if converter_class.check_validity() is False:
+                self.using_combo_box.disable_item(i)
 
     def master_selection_changed(self, *args):
         converter_class = converter_handler.get_converter(args[0])

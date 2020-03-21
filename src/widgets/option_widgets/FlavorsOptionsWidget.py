@@ -8,7 +8,7 @@ from src.widgets.customs.LabeledLineEdit import LabeledLineEdit
 class FlavorsOptionsWidget(QWidget):
     def __init__(self, parent=None):
         super(FlavorsOptionsWidget, self).__init__(parent)
-        self.settings = widget_manager.main_window.settings
+        self.settings = widget_manager.settings
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(18, 18, 18, 18)
@@ -16,18 +16,18 @@ class FlavorsOptionsWidget(QWidget):
         self.setLayout(self.layout)
 
         # Inputs
-        self.pandoc_path_line_edit = LabeledLineEdit("Pandoc path", parent=self)
+        self.pandoc_path_line_edit = LabeledLineEdit("Pandoc executable path", parent=self)
         self.pandoc_path_line_edit.set_text(self.settings.value("flavors/pandoc_path", "", type=str))
-        self.pandoc_path_line_edit.buttonClicked.connect(self.instantiate_folder_dialog)
+        self.pandoc_path_line_edit.buttonClicked.connect(self.instantiate_file_dialog)
         self.layout.addWidget(self.pandoc_path_line_edit)
 
         self.layout.addStretch()
 
-    def instantiate_folder_dialog(self):
-        file_dialog_response = QtWidgets.QFileDialog.getExistingDirectory(self, "Select Pandoc Directory")
+    def instantiate_file_dialog(self):
+        pandoc_path = QtWidgets.QFileDialog.getOpenFileName(self, "Select Pandoc Executable")[0]
 
-        if file_dialog_response != '':
-            self.pandoc_path_line_edit.set_text(file_dialog_response)
+        if pandoc_path != '':
+            self.pandoc_path_line_edit.set_text(pandoc_path)
 
     def save_settings(self):
         self.settings.setValue("flavors/pandoc_path", self.pandoc_path_line_edit.get_text())

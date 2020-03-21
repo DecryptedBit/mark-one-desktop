@@ -17,6 +17,10 @@ class BaseConverter(ABC):
     def get_to_types():
         pass
 
+    @staticmethod
+    def check_validity():
+        return True
+
     @abstractmethod
     def convert(self, content):
         pass

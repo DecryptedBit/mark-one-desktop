@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import QWidget
 
 
@@ -39,6 +39,12 @@ class LabeledComboBox(QWidget):
 
         if index >= 0:
             self.combo_box.setCurrentIndex(index)
+
+    def disable_item(self, index):
+        self.combo_box.model().item(index).setEnabled(False)
+
+    def enable_item(self, index):
+        self.combo_box.model().item(index).setEnabled(True)
 
     def get_item(self):
         return self.combo_box.itemText(self.combo_box.currentIndex())

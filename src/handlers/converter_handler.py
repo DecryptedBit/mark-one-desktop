@@ -21,6 +21,7 @@ def initialize():
             print(f'Something went wrong in {converter_module} - {e}')
 
     converter_dictionary = {converter.get_name(): converter for converter in base_converter.BaseConverter.__subclasses__()}
+    print(converter_dictionary)
 
 
 def get_converter(converter_name):

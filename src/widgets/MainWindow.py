@@ -1,5 +1,4 @@
 from PyQt5 import QtCore, QtWidgets
-from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
@@ -11,14 +10,10 @@ class MainWindow(QMainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
 
-        self.settings = QSettings("DeBit", "MarkI-Desktop")
-
         self.resize(config.UI_RESOLUTION[0], config.UI_RESOLUTION[1])
         self.setWindowTitle('MarkI ALPHA')
         self.setWindowIcon(QIcon('resources/logo.svg'))
         self.setAutoFillBackground(False)
-
-        widget_manager.main_window = self
 
         # File explorer
         self.file_explorer_dock_widget = QtWidgets.QDockWidget(self)

@@ -14,4 +14,4 @@ CONSOLE_PREFIX              = f'> '
 CONSOLE_HISTORY_LEN         = 5
 CONSOLE_LOGGING             = True
 CONSOLE_RESPONSE_LOGGING    = True
-CONSOLE_LOG_FILE_PATH       = Path(os.getcwd() + "/Logs") / "console_logs.txt"
+CONSOLE_LOG_FILE_PATH       = Path(os.getcwd() + "/logs") / "console_logs.txt"

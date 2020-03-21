@@ -3,14 +3,14 @@ from PyQt5.QtWidgets import QDialog
 
 from src import widget_manager
 from src.widgets.option_widgets.FlavorsOptionsWidget import FlavorsOptionsWidget
-from src.widgets.PreferencesDialogIndexWidget import PreferencesIndexWidget
+from src.widgets.PreferencesDialogIndexWidget import PreferencesDialogIndexWidget
 from src.widgets.PreferencesDialogOptionsTabWidget import PreferencesDialogOptionsTabWidget
 
 
 class PreferencesDialog(QDialog):
     def __init__(self, parent=None):
         super(PreferencesDialog, self).__init__(parent)
-        self.settings = widget_manager.main_window.settings
+        self.settings = widget_manager.settings
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(0, 0, 0, 9)
@@ -21,7 +21,7 @@ class PreferencesDialog(QDialog):
         self.option_widgets_names = ["Flavors"]
 
         # Index
-        self.index_widget = PreferencesIndexWidget(self)
+        self.index_widget = PreferencesDialogIndexWidget(self)
         self.index_widget.add_items(self.option_widgets_names)
         self.index_widget.hierarchyItemActivated.connect(self.hierarchy_item_activated)
 

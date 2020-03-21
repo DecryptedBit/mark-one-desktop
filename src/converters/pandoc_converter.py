@@ -107,6 +107,15 @@ class PandocConverter(BaseConverter):
     def get_to_types():
         return to_types
 
+    @staticmethod
+    def check_validity():
+        # Check if Pandoc is installed
+        try:
+            pypandoc.get_pandoc_path()
+            return True
+        except OSError as e:
+            return False
+
     def __init__(self, from_type_index, to_type_index):
         self.set_from_type(from_type_index)
         self.set_to_type(to_type_index)
