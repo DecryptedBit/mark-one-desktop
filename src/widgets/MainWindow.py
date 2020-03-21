@@ -11,7 +11,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
 
         self.resize(config.UI_RESOLUTION[0], config.UI_RESOLUTION[1])
-        self.setWindowTitle('MarkI ALPHA')
+        self.setWindowTitle('Mark-one ALPHA')
         self.setWindowIcon(QIcon('resources/logo.svg'))
         self.setAutoFillBackground(False)
 

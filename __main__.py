@@ -13,7 +13,7 @@ from src.handlers import settings_handler, command_handler, converter_handler
 
 PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
 
-widget_manager.settings = QSettings("DeBit", "MarkI-Desktop")
+widget_manager.settings = QSettings("DeBit", "Mark-one-desktop")
 
 converter_handler.initialize()
 command_handler.initialize()
