@@ -2,7 +2,7 @@ from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMainWindow
 
-from src import config, widget_manager
+from src import config, widget_manager, settings
 from src.widgets import ConsoleWidget, FileExplorerTreeView, MenuBar, EditorTabWidget
 
 
@@ -12,7 +12,7 @@ class MainWindow(QMainWindow):
 
         self.resize(config.UI_RESOLUTION[0], config.UI_RESOLUTION[1])
         self.setWindowTitle('Mark-one ALPHA')
-        self.setWindowIcon(QIcon('resources/logo.svg'))
+        self.setWindowIcon(QIcon(settings.RESOURCES_ROOT + '/logo.svg'))
         self.setAutoFillBackground(False)
 
         # File explorer
